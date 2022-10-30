@@ -2,7 +2,7 @@
     "name": "gumaath/projeto-caramelo",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/php"
         }
     },
     "authors": [
