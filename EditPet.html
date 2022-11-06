@@ -7,6 +7,25 @@
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
     <title>Editar Pet</title>
+    <style>
+
+        @media only screen and (min-width: 630px) {
+        .error-img {
+            width: 17em !important;                   
+            }
+        }
+
+        .error-img {
+           width: 70%;
+           height: 80%;
+        }
+
+        .img-wrapper {
+            text-align: center;
+        }
+        
+
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
@@ -32,7 +51,7 @@
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="container mt-4 mb-4" style="width: 80%;">
         <div class="card">
-            <div class="bg-dark rounded-top">
+            <div class="bg-dark rounded-top img-wrapper">
                 <img src="src/assets/chule.jpeg" class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
             </div>  
             <div class="card-body">
@@ -57,7 +76,7 @@
                     <input type="file" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                 </div>
                 <button type="button" class="btn btn-success">Salvar</button>
-                <button type="button" class="btn btn-danger">Sair</button>   
+                <button type="button" class="btn btn-danger">Cancelar</button>   
             </div>
         </div>
 <script src="./src/js/bootstrap.bundle.min.js"></script>    
