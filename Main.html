@@ -8,6 +8,13 @@
   <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <title>Página inicial</title>
+  <style>
+  @media only screen and (max-width: 915px) {
+  .arrow-img {
+    display: none !important;
+  }
+}
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-dark bg-dark">
@@ -21,6 +28,9 @@
         <h4 class="text-white">Opções do Menu</h4>
         <span class="text-muted">Adicionar opções de navegação aqui posteriormente.</span>
       </div>
+    </div>
+    <div class="container mt-4" style="width: 80%;">
+      <h2>Bem vindo, </h2>
     </div>
     <div class="container mt-5 bg-dark rounded-1" style="width: 80%; height: 19em;">
       <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
@@ -63,11 +73,11 @@
     <div class="card bg-dark text-white mt-5 mb-4" style="width: 82%; height: 8em;">
       <div class="card-body mt-3">
         <div class="row g-0">
-          <div class="col-md-8">
+          <div class="col-md-8 col-sm-8">
             <h5 class="card-title">Meus Pets</h5>
             <p class="card-text">Adicionar, remover, ou editar os pets associados ao meu usuário.</p>
           </div>
-          <div class="col-md-4 d-flex justify-content-end mt-2">
+          <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
             <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
           </div>
         </div>
@@ -79,11 +89,11 @@
     <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
       <div class="card-body mt-3">
         <div class="row g-0">
-          <div class="col-md-8">
+          <div class="col-md-8 col-sm-8">
             <h5 class="card-title">Prescrição nutricional</h5>
             <p class="card-text">Visualizar histórico das prescrições receitadas para meu pet.</p>
           </div>
-          <div class="col-md-4 d-flex justify-content-end mt-2">
+          <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
             <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
           </div>
         </div>
@@ -95,11 +105,11 @@
       <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
         <div class="card-body mt-3">
           <div class="row g-0">
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-8">
               <h5 class="card-title">Vacinas</h5>
               <p class="card-text">Visualizar vacinas aplicadas em meu pet.</p>
             </div>
-            <div class="col-md-4 d-flex justify-content-end mt-2">
+            <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
               <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
             </div>
           </div>
@@ -111,11 +121,11 @@
       <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
         <div class="card-body mt-3">
           <div class="row g-0">
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-8">
               <h5 class="card-title">Medicamentos</h5>
               <p class="card-text">Visualizar medicamentos aplicados em meu pet.</p>
             </div>
-            <div class="col-md-4 d-flex justify-content-end mt-2">
+            <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
               <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
             </div>
           </div>
@@ -127,11 +137,11 @@
       <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
         <div class="card-body mt-3">
           <div class="row g-0">
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-8">
               <h5 class="card-title">Exames</h5>
               <p class="card-text">Visualizar histórico de exames do meu pet.</p>
             </div>
-            <div class="col-md-4 d-flex justify-content-end mt-2">
+            <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
               <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
             </div>
           </div>
