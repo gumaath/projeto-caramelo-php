@@ -1,10 +1,6 @@
 <?php
     namespace App;
-    include ($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-    use App\Functions;
-
-    $_url = Functions::getUrlDocument();
-    echo $_url;
+    include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 ?>
 
 <!DOCTYPE html>

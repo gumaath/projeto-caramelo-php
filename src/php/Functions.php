@@ -1,7 +1,7 @@
 <?php
 namespace App; 
 
-include ($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
 class Functions {
     public static function getUrlDocument() {

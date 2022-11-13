@@ -1,3 +1,31 @@
+<?php
+require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+use App\Auth;
+use App\Connect;
+
+if ($_REQUEST) {
+    try {
+        $login = $_POST['loginEmail'];
+        $auth = Auth::verificaLogin($_POST['loginEmail'], $_POST['loginPassword']);
+        if ($auth)
+            $session = Auth::createSession($_POST['loginEmail']);
+        if ($auth && $session) {
+            setcookie('login', $login, 0, '/');
+            header("Location: ./Main.php");
+        } else {
+            echo "Erro";
+        }
+    } catch (Exception $th) {
+        throw new Exception($th);
+    }
+    if ($auth) {
+        Auth::verificaSessionLogin();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,12 +47,12 @@
                 <h4>Faça login</h4>
             </div>
             <div class="d-flex align-items-center justify-content-center">
-                <form>
+                <form method="POST">
                     <div class="mb-3" style="min-width: 300px;">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Endereço de e-mail">
+                        <input type="email" class="form-control" name="loginEmail" id="InputEmail" aria-describedby="emailHelp" placeholder="Endereço de e-mail">
                     </div>
                     <div class="mb-4" style="min-width: 300px;">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+                        <input type="password" class="form-control" name="loginPassword" id="exampleInputPassword1" placeholder="Senha">
                         <a href="">
                             <div id="emailHelp" class="form-text">Esqueci minha senha</div>
                         </a>
