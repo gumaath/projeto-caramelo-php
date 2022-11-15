@@ -1,3 +1,15 @@
+<?php
+require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+use App\Connect;
+
+$db = new Connect();
+$dbcon = $db->ConnectDB();
+$sth = $dbcon->query("SELECT * FROM tb_users where email_user = '{$_COOKIE['login']}'");
+$user = $sth->fetch();
+$sth = $dbcon->query("SELECT * FROM tb_pets where id_owner = '{$user['id_user']}'");
+$pets = $sth->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +28,7 @@
 
         @media only screen and (max-width: 575px) {
         .card {
-            margin: 0 18% !important;
+            margin: 0 10% !important;
             }
         
         .btn-add-pet {
@@ -26,7 +38,6 @@
         .btn-success {
             width: 90%;
         }
-
     }        
     </style>
 </head>
@@ -53,38 +64,29 @@
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
-            <button class="btn btn-success m-4">Cadastrar Pet</button>
+            <button class="btn btn-success m-4">Cadastrar novo</button>
         </div>
-        <div class="container mt-4 mb-4 col-sm-12 col-md-12 d-flex justify-content-center row" style="width: 80%;"><!--Container principal-->
-            <!-- <button class="btn btn-success m-4">Adicionar novo Pet</button> -->
-            <div class="col-md-8 col-sm-8 p-1">
-                <div class="card mx-auto" style="width: 18rem; height: 24rem;">
+        <div class="container mt-4 mb-4 col-sm-12 col-md-12 h-50 d-flex m-auto justify-content-center align-self-center" style="width: 80%;"><!--Container principal-->
+        <div class="row">
+        <?php foreach ($pets as $pet) { 
+          $sth = $dbcon->query("SELECT name_race FROM aux_race_pets where id_race = '{$pet['race_pet']}'");
+          $race_pet = $sth->fetch();
+        ?>
+            <div class="col p-1 d-flex">
+                <div class="card mx-auto" style="width: 18rem; height: 25rem;">
                     <div class="bg-dark rounded-top">
-                        <img src="src/assets/chule.jpeg" class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
+                        <img src="..." class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Chulé</h5>
-                        <p class="card-text">4 anos</p>
-                        <p class="card-text">Raça: SDR</p>
-                        <p class="card-text">Cadastrado em: 06/11/2021</p>
+                        <h5 class="card-title"><?=$pet['name_pet']?></h5>
+                        <p class="card-text">Nascimento: <?=$pet['birth_pet']?></p>
+                        <p class="card-text">Raça: <?=$race_pet['name_race']?></p>
                         <a href="#" class="btn btn-primary">Visualizar</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-4 p-1">
-                <div class="card mx-auto" style="width: 18rem; height: 24rem;">
-                    <div class="bg-dark rounded-top">
-                        <img src="..." class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Nome do pet</h5>
-                        <p class="card-text">Idade</p>
-                        <p class="card-text">Raça</p>
-                        <p class="card-text">Data de cadastro</p>
-                        <a href="#" class="btn btn-primary">Visualizar</a>
-                    </div>
-                </div>
-            </div>
+        <?php } ?>
+          </div>
         </div><!--Container principal-->
 <script src="./src/js/bootstrap.bundle.min.js"></script>    
 </body>

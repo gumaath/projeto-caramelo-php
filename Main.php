@@ -6,7 +6,8 @@ use App\Connect;
 $db = new Connect();
 $dbcon = $db->ConnectDB();
 
-$stmt = $dbcon->query("SELECT 
+$stmt = $dbcon->query("SELECT
+                       name_user,
                        id_user,
                        role_user
                        FROM tb_users 
@@ -16,8 +17,8 @@ $user = $stmt->fetch();
 
 if ($user) {
   $stmt = $dbcon->query("SELECT *
-                                FROM tb_vets
-                                WHERE id_user = '{$user['id_user']}'");
+                        FROM tb_vets
+                        WHERE id_user = '{$user['id_user']}'");
   $vet = $stmt->fetch();
 }
 
@@ -40,11 +41,10 @@ if ($user) {
       }
 
       .card-text {
-      text-overflow: ellipsis !important; 
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
+        text-overflow: ellipsis !important; 
+        white-space: nowrap;
+        overflow: hidden;
+      } 
     }
 
     .card-menu a {
@@ -58,6 +58,11 @@ if ($user) {
     .card-menu-box .card:hover {
       background: blue !important;
     } 
+
+    .card-menu-box {
+      max-width: 1280px;
+    }
+
   </style>
 </head>
 
@@ -83,8 +88,8 @@ if ($user) {
       </ul>
     </div>
   </div>
-  <div class="container mt-4" style="width: 80%;">
-    <h2>Bem vindo, Rafael!</h2>
+  <div class="container mt-4 d-flex" style="border-bottom: 1px solid #777777;">
+    <h2> Bem vindo, <?=$user['name_user'];?>!</h2>
   </div>
   <div class="container mt-5 bg-dark rounded-1" style="width: 80%; height: 19em;">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
@@ -124,9 +129,9 @@ if ($user) {
   </div>
   <!--Meus Pets-->
   <div class="card-menu">
-    <a href="">
+    <a href="./MyPets.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-5 mb-4" style="width: 82%; height: 8em;">
+        <div class="card bg-dark text-white mt-5 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -144,9 +149,9 @@ if ($user) {
   </div>
   <!--Prescrição nutricional-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Prescription.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -164,9 +169,9 @@ if ($user) {
   </div>
   <!--Vacinas-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Vaccines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -184,9 +189,9 @@ if ($user) {
   </div>
   <!--Medicamentos-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Medicines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -204,9 +209,9 @@ if ($user) {
   </div>
   <!--Exames-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Exams.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 82%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
