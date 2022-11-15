@@ -11,7 +11,7 @@ class Auth {
         $dbcon = $db->ConnectDB();
 
         $stmt = $dbcon->query("SELECT 
-                                email_user, 
+                                email_user,     
                                 passwd_user,  
                                 active_user,
                                 role_user

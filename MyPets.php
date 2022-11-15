@@ -53,7 +53,7 @@
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
-            <button class="btn btn-success m-4">Cadastrar Pet</button>
+            <a href="./EditPet.php" class="btn btn-success m-4">Cadastrar Pet</a>
         </div>
         <div class="container mt-4 mb-4 col-sm-12 col-md-12 d-flex justify-content-center row" style="width: 80%;"><!--Container principal-->
             <!-- <button class="btn btn-success m-4">Adicionar novo Pet</button> -->

@@ -1,3 +1,17 @@
+<?php
+  require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');    
+
+  use App\Functions;
+
+    $var = Functions::getIdUser();
+
+    if(isset($_POST['Save']) && $_REQUEST) {     
+      Functions::cadastrarPet($_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
+      (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], $var['id_user']);
+    }
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,36 +63,59 @@
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="container mt-4 mb-4" style="width: 80%;">
+        <form method="POST">
         <div class="card">
             <div class="bg-dark rounded-top img-wrapper">
                 <img src="src/assets/chule.jpeg" class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
             </div>  
-            <div class="card-body">
+              <div class="card-body">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Sexo</span>
+                    <div class="input-group-text">
+                      <input type="radio" value="M" name="gender">
+                      <span class="mx-1">Macho</span>
+                    </div>
+                    <div class="input-group-text">
+                      <input type="radio" value="F" name="gender">
+                      <span class="mx-1">Fêmea</span>
+                    </div>
                 </div>
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Peso</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
+                      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="name">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm" >Peso</span>
+                      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="weight">
+                  </div>
+                  <div class="input-group  input-group-sm mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
+                      <select class="form-select" id="inputGroupSelect01" name="type">
+                        <option selected>Selecione...</option>
+                        <option value="1">Equino</option>
+                        <option value="2">Suíno</option>
+                        <option value="3">Felino</option>
+                        <option value="4">Dogníneo</option>
+                      </select>
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Raça</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Data de nascimento</span>
-                    <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Foto</span>
-                    <input type="file" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-                <button type="button" class="btn btn-success">Salvar</button>
-                <button type="button" class="btn btn-warning">Cancelar</button>   
-                <button type="button" class="btn btn-danger">Remover</button>   
-            </div>
-        </div>
+                    <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="race">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Data de nascimento</span>
+                      <input type="date" class="form-control" aria-describedby="inputGroup-sizing-sm" name="birth">
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm" >Foto</span>
+                      <input type="file" class="form-control" aria-describedby="inputGroup-sizing-sm" name="photo">
+                    </div>
+                    <input type="submit" name="Save" class="btn btn-success" value="Salvar"></input>
+                    <button type="button" class="btn btn-warning">Cancelar</button>   
+                  <input type="submit" class="btn btn-danger" value="Remover"></input>   
+              </div>
+          </div>
+        </form>
 <script src="./src/js/bootstrap.bundle.min.js"></script>    
 </body>
 </html>
