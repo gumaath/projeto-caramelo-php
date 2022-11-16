@@ -36,7 +36,7 @@ $pets = $sth->fetchAll();
         }
 
         .btn-success {
-            width: 90%;
+            width: 75%;
         }
     }        
     </style>
@@ -52,7 +52,7 @@ $pets = $sth->fetchAll();
           <div class="bg-dark p-4">
             <ul class="navbar-nav text-white">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Menu principal</a>
+                <a class="nav-link" aria-current="page" href="./Main.php">Menu principal</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
@@ -64,7 +64,8 @@ $pets = $sth->fetchAll();
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
-            <button class="btn btn-success m-4">Cadastrar Pet</button>
+            <a href="./Main.php" class="btn">Voltar</a>
+            <a href="./EditPet.php" class="btn btn-success m-4">Cadastrar Pet</a>
         </div>
         <div class="container mt-4 mb-4 col-sm-12 col-md-12 h-50 d-flex m-auto justify-content-center align-self-center" style="width: 80%;"><!--Container principal-->
         <div class="row">
@@ -81,7 +82,7 @@ $pets = $sth->fetchAll();
                         <h5 class="card-title"><?=$pet['name_pet']?></h5>
                         <p class="card-text">Nascimento: <?=$pet['birth_pet']?></p>
                         <p class="card-text">Raça: <?=$race_pet['name_race']?></p>
-                        <a href="#" class="btn btn-primary">Visualizar</a>
+                        <a href="./EditPet.php?id=<?= $pet['id_pet']?>" class="btn btn-primary">Visualizar</a>
                     </div>
                 </div>
             </div>

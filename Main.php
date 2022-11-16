@@ -2,11 +2,15 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
 use App\Connect;
+use App\Functions;
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();
 
+$news = Functions::getNews();
+
 $stmt = $dbcon->query("SELECT 
+                       name_user,
                        id_user,
                        role_user
                        FROM tb_users 
@@ -88,7 +92,7 @@ if ($user) {
     </div>
   </div>
   <div class="container mt-4" style="width: 80%;">
-    <h2>Bem vindo, Rafael!</h2>
+    <h2>Bem vindo, <?= $user['name_user']?>!</h2>
   </div>
   <div class="container mt-5 bg-dark rounded-1" style="width: 80%; height: 19em;">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
@@ -96,25 +100,23 @@ if ($user) {
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="0" class="active mt-5" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="1" class="mt-5" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="2" class="mt-5" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="3" class="mt-5" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="4" class="mt-5" aria-label="Slide 5"></button>
       </div>
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-        </div>
-        <div class="carousel-item">
-          <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-        </div>
-        <div class="carousel-item">
-          <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-        </div>
-        <div class="carousel-item">
-          <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-        </div>
-        <div class="carousel-item">
-          <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-        </div>
+        <a href="./News.php?id=<?= $news['id_news']?>">
+          <div class="carousel-item active">
+            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
+          </div>
+        </a>
+        <a href="./News.php?id=<?= $news['id_news']?>">
+          <div class="carousel-item">
+            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
+          </div>
+        </a>
+        <a href="./News.php?id=<?= $news['id_news']?>">
+          <div class="carousel-item">
+            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
+          </div>
+        </a>
       </div>
       <button class="carousel-control-prev mt-5 visually-hidden" type="button" data-bs-target="#carouselAds" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -128,7 +130,7 @@ if ($user) {
   </div>
   <!--Meus Pets-->
   <div class="card-menu">
-    <a href="">
+    <a href="./MyPets.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-5 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
@@ -168,7 +170,7 @@ if ($user) {
   </div>
   <!--Vacinas-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Vaccines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
@@ -188,7 +190,7 @@ if ($user) {
   </div>
   <!--Medicamentos-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Medicines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">
@@ -208,7 +210,7 @@ if ($user) {
   </div>
   <!--Exames-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Exams.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
           <div class="card-body mt-3">

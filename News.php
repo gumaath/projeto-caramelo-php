@@ -1,3 +1,17 @@
+<?php
+    include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+    use App\Functions;
+    #use App\Connect
+
+    $news = Functions::getNews();
+    
+    if(!isset($_GET['id'])) {
+        echo "<script>window.location.href = './Main.php'</script>";
+    }
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +33,7 @@
         <div class="bg-dark p-4">
         <ul class="navbar-nav text-white">
             <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Menu principal</a>
+            <a class="nav-link" aria-current="page" href="./Main.php">Menu principal</a>
             </li>
             <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
@@ -32,13 +46,13 @@
     </div><!--Opções de navegação do Menu de Navegação-->
     <div class="container mt-4" style="width: 80%;">
         <div class="container border text-center" style="height: 17em;">
-            <img class="img-fluid" src="src/assets/logominha.png" alt="...">
+            <img class="img-fluid" src="<?= $news['news_id_photo']?>" onerror="this.src='src/assets/logominha.png';">
         </div>
         <hr>
-        <h1>Título da notícia</h1>
+        <h1><?= $news['title_news']?></h1>
         <hr>
-        <div class="container border">
-            <p>Conteúdo da notícia aqui!</p>
+        <div class="container mb-3">
+            <p><?= $news['news_content']?></p>
         </div>
     </div>
     <script src="./src/js/bootstrap.bundle.min.js"></script>    

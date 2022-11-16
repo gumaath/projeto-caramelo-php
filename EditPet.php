@@ -1,13 +1,25 @@
 <?php
   require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');    
 
-  use App\Functions;
+  use App\Functions;    
+  use App\Connect;
 
-    $var = Functions::getIdUser();
+    $race_pet = Functions::loadRacePet();
+    $type_pet = Functions::loadTypePet();
 
     if(isset($_POST['Save']) && $_REQUEST) {     
       Functions::cadastrarPet($_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
-      (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], $var['id_user']);
+      (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
+      
+      echo "<script>alert('Pet cadastrado com sucesso!');window.location.href = './MyPets.php';</script>";
+    }
+
+    if(isset($_GET['id'])) {
+      $db = new Connect();
+      $dbcon = $db->ConnectDB();
+
+      $sth = $dbcon->query("SELECT * FROM tb_pets WHERE id_pet = {$_GET['id']} ");
+      $pet = $sth->fetch();
     }
     
 ?>
@@ -37,6 +49,17 @@
         .img-wrapper {
             text-align: center;
         }
+
+        
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
         
     </style>
 </head>
@@ -51,7 +74,7 @@
           <div class="bg-dark p-4">
             <ul class="navbar-nav text-white">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Menu principal</a>
+                <a class="nav-link" aria-current="page" href="./Main.php">Menu principal</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
@@ -63,7 +86,8 @@
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="container mt-4 mb-4" style="width: 80%;">
-        <form method="POST">
+        <form method="POST" enctype=multipart/form-data>
+        <a href="./MyPets.php" class="btn btn-outline-secondary mb-4">Voltar</a>
         <div class="card">
             <div class="bg-dark rounded-top img-wrapper">
                 <img src="src/assets/chule.jpeg" class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
@@ -72,47 +96,56 @@
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Sexo</span>
                     <div class="input-group-text">
-                      <input type="radio" value="M" name="gender">
+                      <input <?php if (isset($pet) && $pet['gender_pet']=="M") echo "checked"; ?> type="radio" value="M" name="gender" required>
                       <span class="mx-1">Macho</span>
                     </div>
                     <div class="input-group-text">
-                      <input type="radio" value="F" name="gender">
+                      <input <?php if (isset($pet) && $pet['gender_pet']=="F") echo "checked"; ?> type="radio" value="F" name="gender">
                       <span class="mx-1">Fêmea</span>
+                    </div>
+                    <div class="input-group-text">
+                      <input <?php if (isset($pet) && $pet['gender_pet']=="NE") echo "checked"; ?> type="radio" value="NE" name="gender">
+                      <span class="mx-1">Não específicado</span>
                     </div>
                 </div>
                   <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
-                      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="name">
+                      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="name" required value="<?php if (isset($pet)) echo $pet['name_pet']; ?>">
                   </div>
                   <div class="input-group input-group-sm mb-3">
-                      <span class="input-group-text" id="inputGroup-sizing-sm" >Peso</span>
-                      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="weight">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Peso</span>
+                      <input type="number" min="0" step="0.1" class="form-control" aria-describedby="inputGroup-sizing-sm" name="weight" required value="<?php if (isset($pet)) echo $pet['weight_pet']; ?>">
                   </div>
                   <div class="input-group  input-group-sm mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
-                      <select class="form-select" id="inputGroupSelect01" name="type">
-                        <option selected>Selecione...</option>
-                        <option value="1">Equino</option>
-                        <option value="2">Suíno</option>
-                        <option value="3">Felino</option>
-                        <option value="4">Dogníneo</option>
+                      <select class="form-select" id="inputGroupSelect01" name="type" required>
+                        <option disabled value="" selected>Selecione...</option>
+                        <?php if(isset($pet)) { ?>
+                          <option selected="<?= $pet['type_pet'] ?>" value="<?= $type_pet['id_type'] ?>"><?= $type_pet['name_type'] ?></option>
+                        <?php } ?>
+                        <option value="<?= $type_pet['id_type'] ?>"><?= $type_pet['name_type'] ?></option>
+                      </select>
+                  </div>
+                  <div class="input-group  input-group-sm mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Raça</label>
+                      <select class="form-select" id="inputGroupSelect02" name="race" required>
+                        <option disabled value="" selected>Selecione...</option>
+                        <?php if(isset($pet)) { ?>
+                          <option selected="<?= $pet['race_pet'] ?>" value="<?= $race_pet['id_race'] ?>"><?= $race_pet['name_race'] ?></option>  
+                        <?php } ?>
+                        <option value="<?= $race_pet['id_race'] ?>"><?= $race_pet['name_race'] ?></option>
                       </select>
                   </div>
                   <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Raça</span>
-                    <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="race">
-                  </div>
-                  <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm">Data de nascimento</span>
-                      <input type="date" class="form-control" aria-describedby="inputGroup-sizing-sm" name="birth">
+                      <input type="date" class="form-control" aria-describedby="inputGroup-sizing-sm" name="birth" value="<?php if (isset($pet)) echo $pet['birth_pet']; ?>">
                     </div>
                     <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm" >Foto</span>
-                      <input type="file" class="form-control" aria-describedby="inputGroup-sizing-sm" name="photo">
+                      <input type="file" class="form-control" aria-describedby="inputGroup-sizing-sm" name="photo" value="<?php if (isset($pet)) echo $pet['photo_id']; ?>">
                     </div>
                     <input type="submit" name="Save" class="btn btn-success" value="Salvar"></input>
-                    <button type="button" class="btn btn-warning">Cancelar</button>   
-                  <input type="submit" class="btn btn-danger" value="Remover"></input>   
+                    <input type="submit" class="btn btn-danger" value="Remover"></input>   
               </div>
           </div>
         </form>

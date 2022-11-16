@@ -19,12 +19,41 @@ class Functions {
         $stmt = $dbconect->query("INSERT INTO tb_pets (name_pet, gender_pet, weight_pet, type_pet, race_pet, birth_pet, id_owner, photo_id, time_added)
                  VALUES ('{$name}','{$gender}', {$weight}, {$type}, {$race}, '{$birth}', {$id_owner},'{$photo}', NOW())");
 
+        $result = $stmt->fetch();   
+        
+        return $result;
+    } 
+
+    public static function loadTypePet() {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("SELECT * FROM aux_type_pets");                   
+        $result = $stmt->fetch();      
+
+        return $result;
+    }
+
+    public static function loadRacePet() {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("SELECT * FROM aux_race_pets");                   
+        $result = $stmt->fetch();      
+
+        return $result;
+    }
+
+    public static function getNews() {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("SELECT * FROM tb_news ");
         $result = $stmt->fetch();
 
-        if (!$result) {
-           print_r($result);
-        }
-    } 
+        return $result;
+    }
+    
 
     public static function getIdUser() {
         $db = new Connect();
@@ -34,7 +63,7 @@ class Functions {
 
         $result = $stmt->fetch();
 
-        return $result;
+        return $result['id_user'];
     }
 
 }
