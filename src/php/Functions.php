@@ -56,12 +56,17 @@ class Functions {
         return $result;
     }
 
-    public static function getNews() {
+    public static function getNews($id_news = null) {
         $db = new Connect();
         $dbconect = $db->ConnectDB();
 
-        $stmt = $dbconect->query("SELECT * FROM tb_news ");
-        $result = $stmt->fetch();
+        if($id_news == null) {
+            $stmt = $dbconect->query("SELECT * FROM tb_news WHERE status");        
+            $result = $stmt->fetchAll();
+        } else {
+            $stmt = $dbconect->query("SELECT * FROM tb_news WHERE status AND id_news = {$id_news}");        
+            $result = $stmt->fetch();
+        }
 
         return $result;
     }

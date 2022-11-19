@@ -79,7 +79,7 @@ if ($user) {
       <span class="navbar-toggler-icon"></span>
     </button>
   </nav>
-  <div class="collapse" id="navbarMenuOptions">
+  <div class="collapse text-center" id="navbarMenuOptions">
     <div class="bg-dark p-4">
       <ul class="navbar-nav text-white">
         <li class="nav-item">
@@ -89,38 +89,38 @@ if ($user) {
           <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
         </li>
         <li class="nav-item">
-          <button class="btn btn-danger">Sair</button>
+          <button class="btn btn-danger" style="width: 60%;">Sair</button>
         </li>
       </ul>
     </div>
   </div>
   <div class="container mt-4" style="width: 80%;">
     <h2>Bem vindo, <?= $user['name_user']?>!</h2>
-  </div>
+  </div>   
   <div class="container mt-5 bg-dark rounded-1" style="width: 80%; height: 19em;">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="0" class="active mt-5" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="1" class="mt-5" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="2" class="mt-5" aria-label="Slide 3"></button>
-      </div>
+      </div>                   
       <div class="carousel-inner">
-        <a href="./News.php?id=<?= $news['id_news']?>">
+        <a href="./News.php?id=<?= $news[0]['id_news']?>">
           <div class="carousel-item active">
             <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
           </div>
         </a>
-        <a href="./News.php?id=<?= $news['id_news']?>">
+        <a href="./News.php?id=<?= $news[1]['id_news']?>">
           <div class="carousel-item">
             <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
           </div>
         </a>
-        <a href="./News.php?id=<?= $news['id_news']?>">
+        <a href="./News.php?id=<?= $news[2]['id_news']?>">
           <div class="carousel-item">
             <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
           </div>
         </a>
-      </div>
+      </div>      
       <button class="carousel-control-prev mt-5 visually-hidden" type="button" data-bs-target="#carouselAds" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>

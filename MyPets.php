@@ -31,19 +31,29 @@ foreach($photos as $id => $photo) {
            margin: 0 auto;        
         }
 
-        @media only screen and (max-width: 575px) {
-        .card {
-            margin: 0 10% !important;
-            }
-        
+        @media only screen and (max-width: 675px) {
+       
         .btn-add-pet {
             text-align: center;
         }
 
         .btn-success {
-            width: 75%;
+            width: 90%;
         }
+
+      .main-card {
+        width: 100% !important;
+      }
+
     }        
+
+    @media only screen and (max-width: 465px) {
+      .main-card {
+        width: 100% !important;
+      }
+
+    }
+
     </style>
 </head>
 <body>
@@ -53,7 +63,7 @@ foreach($photos as $id => $photo) {
           <span class="navbar-toggler-icon"></span>
         </button>
       </nav>
-        <div class="collapse" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
+        <div class="collapse text-center" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
           <div class="bg-dark p-4">
             <ul class="navbar-nav text-white">
               <li class="nav-item">
@@ -63,14 +73,14 @@ foreach($photos as $id => $photo) {
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
               </li>
               <li class="nav-item">
-                <button class="btn btn-danger">Sair</button>
+                <button class="btn btn-danger" style="width: 60%;">Sair</button>
               </li>
             </ul>
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
-            <a href="./Main.php" class="btn btn-outline-secondary">Voltar</a>
-            <a href="./EditPet.php" class="btn btn-success m-4">Cadastrar Pet</a>
+            <a href="./Main.php" class="btn btn-outline-secondary mt-4 mb-2">Voltar</a>
+            <a href="./EditPet.php" class="btn btn-success mt-4 mb-2">Cadastrar Pet</a>
         </div>
         <div class="container mt-4 mb-4 col-sm-12 col-md-12 h-50 d-flex m-auto justify-content-center align-self-center" style="width: 80%;"><!--Container principal-->
         <div class="row">
@@ -78,7 +88,7 @@ foreach($photos as $id => $photo) {
           $sth = $dbcon->query("SELECT name_race FROM aux_race_pets where id_race = '{$pet['race_pet']}'");
           $race_pet = $sth->fetch();
         ?>
-            <div class="col p-1 d-flex">
+            <div class="main-card col p-1 d-flex">  
                 <div class="card mx-auto" style="width: 18rem; height: 25rem;">
                     <div class="bg-dark rounded-top">
                     <img src="<?= isset($photos_pets[$pet['id_pet']])?'data:image/jpeg;base64,'.$photos_pets[$pet['id_pet']]:'...'?>" class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">

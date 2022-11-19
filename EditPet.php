@@ -112,12 +112,23 @@
         .main-wrapper {
             width: 80% !important;                   
             }
-        }
+        }        
+
+        @media only screen and (max-width: 465px) {
+          .main-wrapper img {
+            object-fit: fill !important;                    
+            }
+
+          .main-wrapper {
+            width: 100% !important;                   
+            }
+
+        }        
 
         .error-img {
-           /*width: 100%;*/
            height: 100%;
         } 
+
 
         .img-wrapper img {
           width: 100% !important;

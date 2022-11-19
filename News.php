@@ -2,12 +2,12 @@
     include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
     use App\Functions;
-    #use App\Connect
-
-    $news = Functions::getNews();
+    #use App\Connect    
     
     if(!isset($_GET['id'])) {
-        echo "<script>window.location.href = './Main.php'</script>";
+        echo "<script>window.location.href = './Main.php'</script>";        
+    } else {
+        $news = Functions::getNews($_GET['id']);
     }
     
 ?>
@@ -21,6 +21,12 @@
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
     <title>Notícias</title>
+    <style>
+        .error-img {
+            object-fit: fill;
+        }
+        
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
@@ -29,7 +35,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     </nav>
-    <div class="collapse" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
+    <div class="collapse text-center" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
         <div class="bg-dark p-4">
         <ul class="navbar-nav text-white">
             <li class="nav-item">
@@ -39,14 +45,14 @@
             <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
             </li>
             <li class="nav-item"> 
-            <button class="btn btn-danger">Sair</button>
+            <button class="btn btn-danger" style="width: 60%;">Sair</button>
             </li>
         </ul>
         </div>
     </div><!--Opções de navegação do Menu de Navegação-->
     <div class="container mt-4" style="width: 80%;">
         <div class="container border text-center" style="height: 17em;">
-            <img class="img-fluid" src="<?= $news['news_id_photo']?>" onerror="this.src='src/assets/logominha.png';">
+            <img class="img-fluid" src="<?= $news['news_id_photo']?>" onerror="this.src='src/assets/logominha.png';this.className ='error-img';">
         </div>
         <hr>
         <h1><?= $news['title_news']?></h1>
