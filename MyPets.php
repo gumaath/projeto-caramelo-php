@@ -64,7 +64,7 @@ $pets = $sth->fetchAll();
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
         <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
-            <a href="./Main.php" class="btn">Voltar</a>
+            <a href="./Main.php" class="btn btn-outline-secondary">Voltar</a>
             <a href="./EditPet.php" class="btn btn-success m-4">Cadastrar Pet</a>
         </div>
         <div class="container mt-4 mb-4 col-sm-12 col-md-12 h-50 d-flex m-auto justify-content-center align-self-center" style="width: 80%;"><!--Container principal-->

@@ -13,6 +13,7 @@
       
       echo "<script>alert('Pet cadastrado com sucesso!');window.location.href = './MyPets.php';</script>";
     } elseif(isset($_POST['Save']) && isset($_GET['id'])) {
+      //var_dump();
       Functions::atualizarPet($_GET['id'], $_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
       (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
 
@@ -70,7 +71,7 @@
 
         .img-wrapper img {
           width: 100% !important;
-          object-fit: fill;          
+          object-fit: cover;          
         }
         
       input::-webkit-outer-spin-button,
@@ -129,7 +130,7 @@
                   </div>
                   <div class="input-group input-group-sm mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Sexo</label>
-                      <select class="form-select" id="inputGroupSelect02" name="race" required>
+                      <select class="form-select" id="inputGroupSelect02" name="gender" required>
                         <option disabled value="" selected>Selecione...</option>
                         <option <?php if(isset($pet) && $pet['gender_pet']=="M") echo "selected"; ?> value="M">Macho</option>
                         <option <?php if(isset($pet) && $pet['gender_pet']=="F") echo "selected"; ?> value="F">Fêmea</option>

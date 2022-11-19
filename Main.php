@@ -59,7 +59,10 @@ if ($user) {
     }
 
     .card-menu-box .card:hover {
-      background: blue !important;
+      -webkit-box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
+      -moz-box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
+      box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
+      transition: 0.2s !important;
     } 
 
     .card-menu-box {
