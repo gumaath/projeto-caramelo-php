@@ -38,7 +38,7 @@ if ($user) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <title>Página inicial</title>
   <style>
-    @media only screen and (max-width: 915px) {
+    @media only screen and (max-width: 938px) {
       .arrow-img {
         display: none !important;
       }
