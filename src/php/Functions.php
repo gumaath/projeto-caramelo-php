@@ -77,6 +77,21 @@ class Functions {
 
         return $result['id_user'];
     }
+    
+
+    public static function getSelectOption($bd, $prefix) {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("SELECT * FROM {$bd}");
+
+        $todos_options = $stmt->fetchAll();
+        
+        foreach ($todos_options as $option) {
+          $retorno[$option['id_'.$prefix]] = $option['name_'.$prefix];
+        }
+        return $retorno;
+    }
 
 }
 ?>

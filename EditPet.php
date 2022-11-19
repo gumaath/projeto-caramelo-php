@@ -7,27 +7,77 @@
     $race_pet = Functions::loadRacePet();
     $type_pet = Functions::loadTypePet();
 
+    // Post
     if(isset($_POST['Save']) && !isset($_GET['id']) && $_REQUEST) {     
       Functions::cadastrarPet($_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
       (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
       
       echo "<script>alert('Pet cadastrado com sucesso!');window.location.href = './MyPets.php';</script>";
+    // Get
     } elseif(isset($_POST['Save']) && isset($_GET['id'])) {
-      //var_dump();
       Functions::atualizarPet($_GET['id'], $_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
       (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
 
       echo "<script>alert('Pet atualizado com sucesso!');window.location.href = './MyPets.php';</script>";
     }
 
+    if($_REQUEST) {
+      if(isset($_GET['id']))
+        $_pet_id = $_GET['id'];
+      else {
+
+        $db = new Connect();
+        $dbcon = $db->ConnectDB();
+        $query = $dbcon->query("SELECT MAX(id_pet) as id_pet FROM tb_pets;");
+        $_pet_id = $query->fetch();
+        $_pet_id = $_pet_id['id_pet'];
+      }
+    }
+
+    if(@$_FILES['photo']) {
+      if(!isset($db)) {
+        $db = new Connect();
+        $dbcon = $db->ConnectDB();
+      }
+      $tipo_arquivo = explode('/', $_FILES['photo']['type']);
+      $tipo_arquivo = $tipo_arquivo[0];
+      if($tipo_arquivo != 'image') {
+        echo "<script>alert('A imagem deve ser uma imagem!');</script>";
+      } else {
+         $arquivo = $_FILES["photo"]["tmp_name"]; 
+         $tamanho = $_FILES["photo"]["size"];
+         $tipo = $_FILES["photo"]["type"];
+         $nome = $_FILES["photo"]["name"];
+         $fp = fopen($arquivo, "rb");
+         $conteudo = fread($fp, $tamanho);
+         $conteudo = addslashes($conteudo);
+         fclose($fp);
+        $_imgData = $conteudo;
+        $_imgType = $tipo;
+        $sth = $dbcon->query("DELETE FROM tb_photos WHERE id_pet = {$_pet_id};");
+        $sth = $dbcon->query("INSERT INTO tb_photos VALUES(null, '{$_imgData}', '{$_imgType}', {$_pet_id});");
+      }
+    }
+
+    // Get
     if(isset($_GET['id'])) {
       $db = new Connect();
       $dbcon = $db->ConnectDB();
 
       $sth = $dbcon->query("SELECT * FROM tb_pets WHERE id_pet = {$_GET['id']} ");
       $pet = $sth->fetch();
+
+      $sth = $dbcon->query("SELECT * FROM tb_photos WHERE id_pet = {$_GET['id']} ");
+      $photo = $sth->fetch();
+      $photos =  base64_encode($photo['blob_photo']);
     }
+
+    // Select Option Race
+    $_races = Functions::getSelectOption('aux_race_pets', 'race');
     
+    // Select Option Types
+    $_types = Functions::getSelectOption('aux_type_pets', 'type');
+
 ?>
 
 <!DOCTYPE html>
@@ -114,9 +164,9 @@
         <div class="card">
             <div class="bg-dark rounded-top img-wrapper" style="height: 18em;">
                 <?php if(isset($_GET['id'])) { ?>
-                  <img src="<?= $pet['photo_id'] ?>" class="card-img-top img-fluid" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
+                  <img src="data:image/jpeg;base64,<?php echo $photos ?>" style="height:100%" class="card-img-top img-fluid" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                 <?php } else { ?>
-                  <img class="card-img-top img-fluid" src="src/assets/logominha.png">
+                  <img class="card-img-top img-fluid" style="height:100%" src="src/assets/logominha.png">
                 <?php } ?>
             </div>  
               <div class="card-body">
@@ -131,30 +181,32 @@
                   <div class="input-group input-group-sm mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Sexo</label>
                       <select class="form-select" id="inputGroupSelect02" name="gender" required>
-                        <option disabled value="" selected>Selecione...</option>
-                        <option <?php if(isset($pet) && $pet['gender_pet']=="M") echo "selected"; ?> value="M">Macho</option>
-                        <option <?php if(isset($pet) && $pet['gender_pet']=="F") echo "selected"; ?> value="F">Fêmea</option>
-                        <option <?php if(isset($pet) && $pet['gender_pet']=="NE") echo "selected"; ?> value="NE">Não específicado</option>                    
+                        <option disabled value="" <?= !isset($pet['type_pet'])?' selected':''?>>Selecione...</option>
+                        <option <?= (isset($pet) && $pet['gender_pet']=="M")?"selected":""; ?> value="M">Macho</option>
+                        <option <?= (isset($pet) && $pet['gender_pet']=="F")?"selected":""; ?> value="F">Fêmea</option>
+                        <option <?= (isset($pet) && $pet['gender_pet']=="NE")?"selected":""; ?> value="NE">Não específicado</option>                    
                       </select>
                   </div>
                   <div class="input-group  input-group-sm mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Espécie</label>
-                      <select class="form-select" id="inputGroupSelect01" name="type" required>
-                        <option disabled value="" selected>Selecione...</option>
-                        <?php if(isset($pet)) { ?>
-                          <option selected="<?= $pet['type_pet'] ?>" value="<?= $type_pet['id_type'] ?>"><?= $type_pet['name_type'] ?></option>
-                        <?php } ?>
-                        <option value="<?= $type_pet['id_type'] ?>"><?= $type_pet['name_type'] ?></option>
+                      <select class="form-select" id="inputGroupSelect02" name="type" required>
+                      <option disabled value="" <?= !isset($pet['race_pet'])?' selected':''?>>Selecione...</option>
+                        <?php
+                          foreach($_types as $_id => $_type) { ?>
+                            <option value="<?=$_id?>" <?=($_id == @$pet['type_pet'])?'selected':'' ?>><?=$_type?></option>
+                        <?php }
+                        ?>
                       </select>
                   </div>
                   <div class="input-group  input-group-sm mb-3">
                       <label class="input-group-text" for="inputGroupSelect01">Raça</label>
                       <select class="form-select" id="inputGroupSelect02" name="race" required>
-                        <option disabled value="" selected>Selecione...</option>
-                        <?php if(isset($pet)) { ?>
-                          <option selected="<?= $pet['race_pet'] ?>" value="<?= $race_pet['id_race'] ?>"><?= $race_pet['name_race'] ?></option>  
-                        <?php } ?>
-                        <option value="<?= $race_pet['id_race'] ?>"><?= $race_pet['name_race'] ?></option>
+                      <option disabled value="" <?= !isset($pet['race_pet'])?' selected':''?>>Selecione...</option>
+                        <?php
+                          foreach($_races as $_id => $_race) { ?>
+                            <option value="<?=$_id?>" <?=($_id == @$pet['race_pet'])?'selected':'' ?>><?=$_race?></option>
+                        <?php }
+                        ?>
                       </select>
                   </div>
                   <div class="input-group input-group-sm mb-3">
@@ -163,7 +215,7 @@
                     </div>
                     <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm" >Foto</span>
-                      <input type="file" class="form-control" aria-describedby="inputGroup-sizing-sm" name="photo" value="<?php if (isset($pet)) echo $pet['photo_id']; ?>">
+                      <input type="file" class="form-control" accept="image/*" aria-describedby="inputGroup-sizing-sm" name="photo" value="<?php if (isset($pet)) echo $pet['photo_id']; ?>">
                     </div>
                     <input type="submit" name="Save" class="btn btn-success" value="Salvar"></input>
                     <input type="submit" class="btn btn-danger" value="Remover"></input>   

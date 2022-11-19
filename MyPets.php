@@ -9,6 +9,11 @@ $sth = $dbcon->query("SELECT * FROM tb_users where email_user = '{$_COOKIE['logi
 $user = $sth->fetch();
 $sth = $dbcon->query("SELECT * FROM tb_pets where id_owner = '{$user['id_user']}'");
 $pets = $sth->fetchAll();
+$sth = $dbcon->query("SELECT * FROM tb_photos");
+$photos = $sth->fetchAll();
+foreach($photos as $id => $photo) {
+  $photos_pets[$photo['id_pet']] =  base64_encode($photo['blob_photo']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +81,7 @@ $pets = $sth->fetchAll();
             <div class="col p-1 d-flex">
                 <div class="card mx-auto" style="width: 18rem; height: 25rem;">
                     <div class="bg-dark rounded-top">
-                        <img src="..." class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
+                    <img src="<?= isset($photos_pets[$pet['id_pet']])?'data:image/jpeg;base64,'.$photos_pets[$pet['id_pet']]:'...'?>" class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title mt-3"><?=$pet['name_pet']?></h5>
