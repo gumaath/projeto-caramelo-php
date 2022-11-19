@@ -48,7 +48,7 @@ class Auth {
         $dbcon = $db->ConnectDB();
         $session = $dbcon->query("SELECT * FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '". $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC")->fetch();
         if ($session) {
-            $dbcon->query("DELETE FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id <>'" . $_COOKIE['PHPSESSID'] . "';");
+            $dbcon->query("DELETE FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id <> '" . $_COOKIE['PHPSESSID'] . "';");
             $dbcon->query("UPDATE tb_sessions SET datetime_session = NOW() WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '". $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC");
         }
         

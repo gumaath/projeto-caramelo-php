@@ -3,6 +3,11 @@ include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php')
 
 use App\Connect;
 use App\Functions;
+use App\Auth;
+
+    if (Auth::verificaSessionLogin() == false) {
+        echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+    }
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();
@@ -89,7 +94,7 @@ if ($user) {
           <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
         </li>
         <li class="nav-item">
-          <button class="btn btn-danger" style="width: 60%;">Sair</button>
+          <button class="btn btn-danger" style="width: 60%;" onclick="logoutUser()">Sair</button>
         </li>
       </ul>
     </div>
@@ -232,6 +237,7 @@ if ($user) {
     </a>
   </div>
   <script src="./src/js/bootstrap.bundle.min.js"></script>
+  <script src="./src/js/scripts.js"></script>    
 </body>
 
 </html>

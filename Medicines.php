@@ -1,3 +1,12 @@
+<?php
+include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+use App\Auth;
+
+    if (Auth::verificaSessionLogin() == false) {
+        echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +34,7 @@
             <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
             </li>
             <li class="nav-item"> 
-            <button class="btn btn-danger">Sair</button>
+            <button class="btn btn-danger" onclick="logoutUser()">Sair</button>
             </li>
         </ul>
         </div>
@@ -73,6 +82,7 @@
     </div>
 <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
 <script src="./src/js/bootstrap.bundle.min.js"></script>        
+<script src="./src/js/scripts.js"></script>    
 <script>
         mediumZoom('.zoom', {
             margin: 50

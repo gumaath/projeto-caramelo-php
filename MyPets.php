@@ -1,7 +1,12 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
-use App\Connect;
+use App\Connect; 
+use App\Auth;
+
+if (Auth::verificaSessionLogin() == false) {
+    echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+}
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();
@@ -73,7 +78,7 @@ foreach($photos as $id => $photo) {
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
               </li>
               <li class="nav-item">
-                <button class="btn btn-danger" style="width: 60%;">Sair</button>
+                <button class="btn btn-danger" style="width: 60%;" onclick="logoutUser()">Sair</button>
               </li>
             </ul>
           </div>
@@ -105,5 +110,6 @@ foreach($photos as $id => $photo) {
           </div>
         </div><!--Container principal-->
 <script src="./src/js/bootstrap.bundle.min.js"></script>    
+<script src="./src/js/scripts.js"></script>    
 </body>
 </html>

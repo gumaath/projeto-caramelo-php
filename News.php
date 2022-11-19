@@ -2,14 +2,18 @@
     include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
     use App\Functions;
-    #use App\Connect    
-    
+    use App\Auth;
+
+    if (Auth::verificaSessionLogin() == false) {
+        echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+    }
+
+
     if(!isset($_GET['id'])) {
         echo "<script>window.location.href = './Main.php'</script>";        
     } else {
         $news = Functions::getNews($_GET['id']);
     }
-    
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +49,7 @@
             <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
             </li>
             <li class="nav-item"> 
-            <button class="btn btn-danger" style="width: 60%;">Sair</button>
+            <button class="btn btn-danger" style="width: 60%;" onclick="logoutUser()">Sair</button>
             </li>
         </ul>
         </div>
@@ -62,5 +66,6 @@
         </div>
     </div>
     <script src="./src/js/bootstrap.bundle.min.js"></script>    
+<script src="./src/js/scripts.js"></script>    
 </body>
 </html>

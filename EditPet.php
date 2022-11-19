@@ -3,6 +3,11 @@
 
   use App\Functions;    
   use App\Connect;
+  use App\Auth;
+
+    if (Auth::verificaSessionLogin() == false) {
+        echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+    }
 
     $race_pet = Functions::loadRacePet();
     $type_pet = Functions::loadTypePet();
@@ -78,7 +83,8 @@
 
       $sth = $dbcon->query("SELECT * FROM tb_photos WHERE id_pet = {$_GET['id']} ");
       $photo = $sth->fetch();
-      $photos = $photo['blob_photo'];
+      if($photo)
+        $photos = $photo['blob_photo'];
     }
 
     // Select Option Race
@@ -97,6 +103,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
+link
     <title>Editar Pet</title>
     <style>
 
@@ -173,7 +180,7 @@
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
               </li>
               <li class="nav-item"> 
-                <button class="btn btn-danger" style="width: 60%;">Sair</button>
+                <button class="btn btn-danger" style="width: 60%;" onclick="logoutUser()">Sair</button>
               </li>
             </ul>
           </div>
@@ -186,7 +193,7 @@
                 <?php if(isset($_GET['id'])) { ?>
                   <img src="data:image/jpeg;base64,<?php echo $photos ?>" style="height:100%" class="card-img-top img-fluid" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                 <?php } else { ?>
-                  <img class="card-img-top img-fluid" style="height:100%" src="src/assets/logominha.png">
+                  <img class="card-img-top img-fluid" style="height:100%" src="src/assets/no_image.jpg">
                 <?php } ?>
             </div>  
               <div class="card-body">
@@ -245,5 +252,6 @@
           </div>
         </form>
 <script src="./src/js/bootstrap.bundle.min.js"></script>    
+<script src="./src/js/scripts.js"></script>    
 </body>
 </html>

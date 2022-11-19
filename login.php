@@ -2,7 +2,6 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
 use App\Auth;
-use App\Connect;
 
 if ($_REQUEST) {
     try {
