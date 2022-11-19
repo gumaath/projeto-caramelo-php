@@ -24,6 +24,18 @@ class Functions {
         return $result;
     } 
 
+    public static function atualizarPet($id_pet, $name, $gender, $weight, $type, $race, $birth, $id_owner, $photo = null) {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("UPDATE tb_pets SET name_pet = '{$name}', gender_pet = '{$gender}', weight_pet = {$weight}, type_pet = {$type}, race_pet = {$race}, birth_pet = '{$birth}', 
+                                id_owner = {$id_owner}, photo_id = '{$photo}', time_added = NOW() WHERE id_pet = {$id_pet}"); 
+
+        $result = $stmt->fetch();   
+        
+        return $result;
+    } 
+
     public static function loadTypePet() {
         $db = new Connect();
         $dbconect = $db->ConnectDB();

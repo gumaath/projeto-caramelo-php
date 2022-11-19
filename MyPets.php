@@ -79,10 +79,10 @@ $pets = $sth->fetchAll();
                         <img src="..." class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title"><?=$pet['name_pet']?></h5>
-                        <p class="card-text">Nascimento: <?=$pet['birth_pet']?></p>
-                        <p class="card-text">Raça: <?=$race_pet['name_race']?></p>
-                        <a href="./EditPet.php?id=<?= $pet['id_pet']?>" class="btn btn-primary">Visualizar</a>
+                        <h5 class="card-title mt-3"><?=$pet['name_pet']?></h5>
+                        <p class="card-text mt-3">Nascimento: <?=$pet['birth_pet']?></p>
+                        <p class="card-text mt-3">Raça: <?=$race_pet['name_race']?></p>
+                        <a href="./EditPet.php?id=<?= $pet['id_pet']?>" class="btn btn-primary mt-3">Visualizar</a>
                     </div>
                 </div>
             </div>

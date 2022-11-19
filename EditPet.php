@@ -7,11 +7,16 @@
     $race_pet = Functions::loadRacePet();
     $type_pet = Functions::loadTypePet();
 
-    if(isset($_POST['Save']) && $_REQUEST) {     
+    if(isset($_POST['Save']) && !isset($_GET['id']) && $_REQUEST) {     
       Functions::cadastrarPet($_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
       (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
       
       echo "<script>alert('Pet cadastrado com sucesso!');window.location.href = './MyPets.php';</script>";
+    } elseif(isset($_POST['Save']) && isset($_GET['id'])) {
+      Functions::atualizarPet($_GET['id'], $_POST['name'], $_POST['gender'], (int)$_POST['weight'], 
+      (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
+
+      echo "<script>alert('Pet atualizado com sucesso!');window.location.href = './MyPets.php';</script>";
     }
 
     if(isset($_GET['id'])) {
@@ -35,21 +40,38 @@
     <title>Editar Pet</title>
     <style>
 
+        .input-group-header {
+          border-bottom-left-radius: 0 !important;
+          border-bottom-right-radius: 0 !important;
+        }
+
+        .input-group-options {
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0 !important;
+          width: 33.33333%;
+        }
+
         @media only screen and (min-width: 630px) {
         .error-img {
             width: 17em !important;                   
             }
         }
 
+        @media only screen and (max-width: 805px) {
+        .main-wrapper {
+            width: 80% !important;                   
+            }
+        }
+
         .error-img {
-           width: 70%;
-           height: 80%;
-        }
+           /*width: 100%;*/
+           height: 100%;
+        } 
 
-        .img-wrapper {
-            text-align: center;
+        .img-wrapper img {
+          width: 100% !important;
+          object-fit: fill;          
         }
-
         
       input::-webkit-outer-spin-button,
       input::-webkit-inner-spin-button {
@@ -70,7 +92,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </nav>
-        <div class="collapse" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
+        <div class="collapse text-center" id="navbarMenuOptions"><!--Opções de navegação do Menu de Navegação-->
           <div class="bg-dark p-4">
             <ul class="navbar-nav text-white">
               <li class="nav-item">
@@ -80,44 +102,42 @@
                 <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
               </li>
               <li class="nav-item"> 
-                <button class="btn btn-danger">Sair</button>
+                <button class="btn btn-danger" style="width: 60%;">Sair</button>
               </li>
             </ul>
           </div>
         </div><!--Opções de navegação do Menu de Navegação-->
-        <div class="container mt-4 mb-4" style="width: 80%;">
+        <div class="main-wrapper container mt-4 mb-5" style="width: 52%;">
         <form method="POST" enctype=multipart/form-data>
         <a href="./MyPets.php" class="btn btn-outline-secondary mb-4">Voltar</a>
         <div class="card">
-            <div class="bg-dark rounded-top img-wrapper">
-                <img src="src/assets/chule.jpeg" class="card-img-top img-fluid" height="160" onerror="this.src='src/assets/logominha.png';this.className='error-img';">
+            <div class="bg-dark rounded-top img-wrapper" style="height: 18em;">
+                <?php if(isset($_GET['id'])) { ?>
+                  <img src="<?= $pet['photo_id'] ?>" class="card-img-top img-fluid" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
+                <?php } else { ?>
+                  <img class="card-img-top img-fluid" src="src/assets/logominha.png">
+                <?php } ?>
             </div>  
               <div class="card-body">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Sexo</span>
-                    <div class="input-group-text">
-                      <input <?php if (isset($pet) && $pet['gender_pet']=="M") echo "checked"; ?> type="radio" value="M" name="gender" required>
-                      <span class="mx-1">Macho</span>
-                    </div>
-                    <div class="input-group-text">
-                      <input <?php if (isset($pet) && $pet['gender_pet']=="F") echo "checked"; ?> type="radio" value="F" name="gender">
-                      <span class="mx-1">Fêmea</span>
-                    </div>
-                    <div class="input-group-text">
-                      <input <?php if (isset($pet) && $pet['gender_pet']=="NE") echo "checked"; ?> type="radio" value="NE" name="gender">
-                      <span class="mx-1">Não específicado</span>
-                    </div>
-                </div>
                   <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm">Nome</span>
                       <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" name="name" required value="<?php if (isset($pet)) echo $pet['name_pet']; ?>">
                   </div>
                   <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm">Peso</span>
-                      <input type="number" min="0" step="0.1" class="form-control" aria-describedby="inputGroup-sizing-sm" name="weight" required value="<?php if (isset($pet)) echo $pet['weight_pet']; ?>">
+                      <input type="number" min="0" step="0.1" class="form-control" placeholder="Kg" aria-describedby="inputGroup-sizing-sm" name="weight" required value="<?php if (isset($pet)) echo $pet['weight_pet']; ?>">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                      <label class="input-group-text" for="inputGroupSelect01">Sexo</label>
+                      <select class="form-select" id="inputGroupSelect02" name="race" required>
+                        <option disabled value="" selected>Selecione...</option>
+                        <option <?php if(isset($pet) && $pet['gender_pet']=="M") echo "selected"; ?> value="M">Macho</option>
+                        <option <?php if(isset($pet) && $pet['gender_pet']=="F") echo "selected"; ?> value="F">Fêmea</option>
+                        <option <?php if(isset($pet) && $pet['gender_pet']=="NE") echo "selected"; ?> value="NE">Não específicado</option>                    
+                      </select>
                   </div>
                   <div class="input-group  input-group-sm mb-3">
-                      <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
+                      <label class="input-group-text" for="inputGroupSelect01">Espécie</label>
                       <select class="form-select" id="inputGroupSelect01" name="type" required>
                         <option disabled value="" selected>Selecione...</option>
                         <?php if(isset($pet)) { ?>
