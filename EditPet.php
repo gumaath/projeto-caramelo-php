@@ -19,6 +19,9 @@
       (int)$_POST['type'], (int)$_POST['race'], $_POST['birth'], Functions::getIdUser());
 
       echo "<script>alert('Pet atualizado com sucesso!');window.location.href = './MyPets.php';</script>";
+    } elseif(isset($_POST['Remover']) && isset($_GET['id'])) {
+      Functions::removerPet($_GET['id']);
+      echo "<script>alert('Pet deletado com sucesso');window.location.href = './MyPets.php';</script>";
     }
 
     if($_REQUEST) {
@@ -34,7 +37,7 @@
       }
     }
 
-    if(@$_FILES['photo']) {
+    if(@$_FILES['photo']['tmp_name']) {
       if(!isset($db)) {
         $db = new Connect();
         $dbcon = $db->ConnectDB();
@@ -50,10 +53,16 @@
          $nome = $_FILES["photo"]["name"];
          $fp = fopen($arquivo, "rb");
          $conteudo = fread($fp, $tamanho);
-         $conteudo = addslashes($conteudo);
+         $conteudo = imagecreatefromstring($conteudo);
+         if($tamanho > 1000000)
+            $conteudo = imagescale($conteudo, '500','500');
          fclose($fp);
-        $_imgData = $conteudo;
+         ob_start();
+         imagepng($conteudo);
+         $conteudo = ob_get_contents();
+         ob_end_clean();
         $_imgType = $tipo;
+        $_imgData = base64_encode($conteudo);
         $sth = $dbcon->query("DELETE FROM tb_photos WHERE id_pet = {$_pet_id};");
         $sth = $dbcon->query("INSERT INTO tb_photos VALUES(null, '{$_imgData}', '{$_imgType}', {$_pet_id});");
       }
@@ -69,7 +78,7 @@
 
       $sth = $dbcon->query("SELECT * FROM tb_photos WHERE id_pet = {$_GET['id']} ");
       $photo = $sth->fetch();
-      $photos =  base64_encode($photo['blob_photo']);
+      $photos = $photo['blob_photo'];
     }
 
     // Select Option Race
@@ -229,7 +238,9 @@
                       <input type="file" class="form-control" accept="image/*" aria-describedby="inputGroup-sizing-sm" name="photo" value="<?php if (isset($pet)) echo $pet['photo_id']; ?>">
                     </div>
                     <input type="submit" name="Save" class="btn btn-success" value="Salvar"></input>
-                    <input type="submit" class="btn btn-danger" value="Remover"></input>   
+                    <?php if(isset($_GET['id'])) { ?>
+                    <input type="submit" name="Remover" class="btn btn-danger" value="Remover"></input>
+                    <?php } ?>
               </div>
           </div>
         </form>

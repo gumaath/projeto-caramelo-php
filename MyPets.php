@@ -12,7 +12,7 @@ $pets = $sth->fetchAll();
 $sth = $dbcon->query("SELECT * FROM tb_photos");
 $photos = $sth->fetchAll();
 foreach($photos as $id => $photo) {
-  $photos_pets[$photo['id_pet']] =  base64_encode($photo['blob_photo']);
+  $photos_pets[$photo['id_pet']] = $photo['blob_photo'];
 }
 ?>
 <!DOCTYPE html>
@@ -90,8 +90,8 @@ foreach($photos as $id => $photo) {
         ?>
             <div class="main-card col p-1 d-flex">  
                 <div class="card mx-auto" style="width: 18rem; height: 25rem;">
-                    <div class="bg-dark rounded-top">
-                    <img src="<?= isset($photos_pets[$pet['id_pet']])?'data:image/jpeg;base64,'.$photos_pets[$pet['id_pet']]:'...'?>" class="card-img-top img-fluid" height="160" max-height="160" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
+                    <div class="bg-dark rounded-top" style="max-height: 160px;">
+                    <img src="<?= isset($photos_pets[$pet['id_pet']])?'data:image/jpeg;base64,'.$photos_pets[$pet['id_pet']]:'...'?>" class="card-img-top img-fluid" style="max-height:160px" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title mt-3"><?=$pet['name_pet']?></h5>

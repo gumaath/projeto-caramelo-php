@@ -34,6 +34,17 @@ class Functions {
         $result = $stmt->fetch();   
         
         return $result;
+    }
+
+    public static function removerPet($id_pet) {
+        $db = new Connect();
+        $dbconect = $db->ConnectDB();
+
+        $stmt = $dbconect->query("DELETE FROM tb_pets where id_pet = {$id_pet};"); 
+
+        $result = $stmt->fetch();   
+        
+        return $result;
     } 
 
     public static function loadTypePet() {
