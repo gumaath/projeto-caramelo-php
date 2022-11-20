@@ -1,12 +1,16 @@
 <?php
+
 namespace App;
-include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
 use App\Connect;
 
-class Auth {
+class Auth
+{
 
-    public static function verificaLogin($email, $senha) {
+    public static function verificaLogin($email, $senha)
+    {
         $db = new Connect();
         $dbcon = $db->ConnectDB();
 
@@ -25,13 +29,14 @@ class Auth {
         if (!$user)
             return false;
         else
-            if($user['role_user']==='ADMIN')            
-                return "A";
-            elseif($user['role_user']==='TUTOR') 
-                return "T";
-    }  
+            if ($user['role_user'] === 'ADMIN')
+            return "A";
+        elseif ($user['role_user'] === 'TUTOR')
+            return "T";
+    }
 
-    public static function createSession($email) {
+    public static function createSession($email)
+    {
         session_start();
         session_regenerate_id(true);
         $session_id = session_id();
@@ -39,21 +44,20 @@ class Auth {
         $dbcon = $db->ConnectDB();
         #print_r("INSERT INTO tb_sessions(user_email, php_session_id, datetime_session) VALUES('{$email}', '{$session_id}', NOW())");
         $session = $dbcon->query("INSERT INTO tb_sessions(user_email, php_session_id, datetime_session) VALUES('{$email}', '{$session_id}', NOW())");
-    
-        return $session;   
+
+        return $session;
     }
-    
-    public static function verificaSessionLogin() {
+
+    public static function verificaSessionLogin()
+    {
         $db = new Connect();
         $dbcon = $db->ConnectDB();
-        $session = $dbcon->query("SELECT * FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '". $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC")->fetch();
+        $session = $dbcon->query("SELECT * FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '" . $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC")->fetch();
         if ($session) {
             $dbcon->query("DELETE FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id <> '" . $_COOKIE['PHPSESSID'] . "';");
-            $dbcon->query("UPDATE tb_sessions SET datetime_session = NOW() WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '". $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC");
+            $dbcon->query("UPDATE tb_sessions SET datetime_session = NOW() WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '" . $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC");
         }
-        
-        return $session;   
+
+        return $session;
     }
-
-
 }

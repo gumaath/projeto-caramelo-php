@@ -5,9 +5,9 @@ use App\Connect;
 use App\Functions;
 use App\Auth;
 
-    if (Auth::verificaSessionLogin() == false) {
-        echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
-    }
+if (Auth::verificaSessionLogin() == false) {
+  echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
+}
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();
@@ -49,10 +49,10 @@ if ($user) {
       }
 
       .card-text {
-        text-overflow: ellipsis !important; 
+        text-overflow: ellipsis !important;
         white-space: nowrap;
         overflow: hidden;
-      } 
+      }
     }
 
     .card-menu a {
@@ -60,20 +60,19 @@ if ($user) {
     }
 
     .card-text {
-      text-overflow: "..." !important; 
+      text-overflow: "..." !important;
     }
 
     .card-menu-box .card:hover {
-      -webkit-box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
-      -moz-box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
-      box-shadow: 0px 5px 11px -1px rgba(0,0,0,0.75);
+      -webkit-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
       transition: 0.2s !important;
-    } 
+    }
 
     .card-menu-box {
       max-width: 1280px;
     }
-
   </style>
 </head>
 
@@ -100,24 +99,24 @@ if ($user) {
     </div>
   </div>
   <div class="container mt-4" style="width: 80%;">
-    <h2>Bem vindo, <?= $user['name_user']?>!</h2>
-  </div>   
+    <h2>Bem vindo, <?= $user['name_user'] ?>!</h2>
+  </div>
   <div class="container mt-5 bg-dark rounded-1" id="carrosel" style="width: 80%; height: 19em; padding: 0 !important;">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
       <div class="carousel-indicators">
         <?php foreach ($news as $_id => $new) { ?>
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="<?=$_id?>" class="<?=$_id === array_key_first($news)?'active':''?> mt-5" aria-current="true" aria-label="Slide <?=$new['id_news']?>"></button>
-<?php } ?>
-      </div>                   
+          <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="<?= $_id ?>" class="<?= $_id === array_key_first($news) ? 'active' : '' ?> mt-5" aria-current="true" aria-label="Slide <?= $new['id_news'] ?>"></button>
+        <?php } ?>
+      </div>
       <div class="carousel-inner" style="max-height: 19em;">
-      <?php foreach ($news as $_id => $new) { ?>
-        <a href="./News.php?id=<?= $new['id_news']?>">
-          <div class="carousel-item <?=$_id === array_key_first($news)?'active':''?>">
-          <img id="image-<?=$new['id_news']?>" data-src="<?=$new['news_url_photo']?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1" style="max-height: 19em; width: inherit; object-fit: cover;">
-          </div>
-        </a>
-<?php } ?>
-      </div>      
+        <?php foreach ($news as $_id => $new) { ?>
+          <a href="./News.php?id=<?= $new['id_news'] ?>">
+            <div class="carousel-item <?= $_id === array_key_first($news) ? 'active' : '' ?>">
+              <img id="image-<?= $new['id_news'] ?>" data-src="<?= $new['news_url_photo'] ?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1" style="max-height: 19em; width: inherit; object-fit: cover;">
+            </div>
+          </a>
+        <?php } ?>
+      </div>
       <button class="carousel-control-prev mt-5 visually-hidden" type="button" data-bs-target="#carouselAds" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
@@ -229,43 +228,42 @@ if ($user) {
     </a>
   </div>
   <script src="./src/js/bootstrap.bundle.min.js"></script>
-  <script src="./src/js/scripts.js"></script>    
+  <script src="./src/js/scripts.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<script>
+  <script>
+    (function($) {
+      $.fn.loadImage = function(src, cb, image) {
+        var self = this,
+          dataSrc = $(self).attr("data-src");
 
-(function( $ ) {
-  $.fn.loadImage = function(src,cb,image) {
-    var self = this,
-        dataSrc = $(self).attr("data-src");
-      
-    image = image || new Image();
-    cb = cb || function() {};
+        image = image || new Image();
+        cb = cb || function() {};
 
-    if (typeof src === "undefined") {
-      if (dataSrc.length) {
-          src = dataSrc;
-      } else {
-           throw new Error("You must specify the data-src on the html element or pass an image src path to loadImage()");
-      }
-    }
-    setTimeout(function() {
-      if (image.src != src)
-        image.src = src;
-      if (!image.complete)
-        return self.loadImage(src,cb,image);
-      self.attr('src',src);
-      cb.call(self);
-    },50);
-  };
-})( jQuery );
-</script>
-<script>
-$(document).ready(function(){
-<?php foreach ($news as $new) {?>
-$("#image-<?=$new['id_news']?>").loadImage();
-<?php } ?>
-});
-</script>
+        if (typeof src === "undefined") {
+          if (dataSrc.length) {
+            src = dataSrc;
+          } else {
+            throw new Error("You must specify the data-src on the html element or pass an image src path to loadImage()");
+          }
+        }
+        setTimeout(function() {
+          if (image.src != src)
+            image.src = src;
+          if (!image.complete)
+            return self.loadImage(src, cb, image);
+          self.attr('src', src);
+          cb.call(self);
+        }, 50);
+      };
+    })(jQuery);
+  </script>
+  <script>
+    $(document).ready(function() {
+      <?php foreach ($news as $new) { ?>
+        $("#image-<?= $new['id_news'] ?>").loadImage();
+      <?php } ?>
+    });
+  </script>
 </body>
 
 </html>

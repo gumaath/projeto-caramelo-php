@@ -1,6 +1,8 @@
 <?php
-    namespace App;
-    include ($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
+
+namespace App;
+
+include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 ?>
 
 <!DOCTYPE html>
