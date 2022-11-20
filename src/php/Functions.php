@@ -50,7 +50,7 @@ class Functions
         return $result;
     }
 
-    public static function loadTypePet()
+    public static function loadTypePets()
     {
         $stmt = $GLOBALS['db']->query("SELECT * FROM aux_type_pets");
         $result = $stmt->fetch();
@@ -58,9 +58,25 @@ class Functions
         return $result;
     }
 
-    public static function loadRacePet()
+    public static function loadRacePets()
     {
         $stmt = $GLOBALS['db']->query("SELECT * FROM aux_race_pets");
+        $result = $stmt->fetch();
+
+        return $result;
+    }
+
+    public static function loadTypePet($id_type)
+    {
+        $stmt = $GLOBALS['db']->query("SELECT * FROM aux_type_pets where id_type = {$id_type}");
+        $result = $stmt->fetch();
+
+        return $result;
+    }
+
+    public static function loadRacePet($id_race)
+    {
+        $stmt = $GLOBALS['db']->query("SELECT * FROM aux_race_pets where id_race = {$id_race}");
         $result = $stmt->fetch();
 
         return $result;

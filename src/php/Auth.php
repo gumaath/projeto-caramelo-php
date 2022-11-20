@@ -33,6 +33,8 @@ class Auth
             return "A";
         elseif ($user['role_user'] === 'TUTOR')
             return "T";
+        elseif ($user['role_user'] === 'VET')
+            return "V";
     }
 
     public static function createSession($email)

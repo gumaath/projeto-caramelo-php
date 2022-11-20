@@ -3,11 +3,21 @@ include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php')
 include('Uniquecode.php');
 
 use App\Auth;
+use App\Functions;
+use App\Connect;
 
 Auth::verificaSessionLogin();
 
+$db = new Connect();
+$dbcon = $db->ConnectDB();
+$_functions = new Functions($dbcon);
+
 if($_REQUEST) {
     $pet = getPetByCode($_POST['codigo']);
+    if(@$pet) {
+        $race_pet = $_functions::loadRacePet($pet['race_pet']);
+        $type_pet = $_functions::loadTypePet($pet['type_pet']);
+    }
 }
 ?>
 
@@ -46,6 +56,9 @@ if($_REQUEST) {
             </ul>
         </div>
     </div>
+    <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
+        <a href="./Main.php" class="btn btn-outline-secondary mt-4 mb-2">Voltar</a>
+    </div>
     <!--Opções de navegação do Menu de Navegação-->
     <div class="container mt-4 " style="width: 80%;">
     <form method="POST">
@@ -66,13 +79,13 @@ if($_REQUEST) {
         <hr>
         <?php if(@$pet) { ?>
         <div class="card">
-            <div class="card-header">V3</div>
+            <div class="card-header">Pet: <?=$pet['name_pet']?></div>
             <div class="card-body">
-                <p class="card-text">Pet: Branquinho</p>
-                <p class="card-text">Previne: Panleucopenia, Rinotraqueíte e outras doenças</p>
-                <span class="card-text">Data de aplicação:</span>
-                <span class="text-muted d-inline">06/11/2022</span>
-                <button data-bs-toggle="collapse" class="btn btn-primary d-block mt-3" data-bs-target="#attachment">Ver anexo</button>
+                <p class="card-text">Tipo:  <?=$type_pet['name_type']?></p>
+                <p class="card-text">Raça: <?=$race_pet['name_race']?></p>
+                <span class="card-text">Data de nascimento:</span>
+                <span class="text-muted d-inline"><?=$pet['birth_pet']?></span>
+                <button data-bs-toggle="collapse" class="btn btn-primary d-block mt-3" data-bs-target="#attachment">Abrir perfil do pet</button>
                 <div id="attachment" class="collapse mt-2 border">
                     <img class="zoom" src="src/assets/logominha.png" alt="..." width="100%" height="120">
                 </div>

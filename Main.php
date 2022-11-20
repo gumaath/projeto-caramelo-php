@@ -84,11 +84,35 @@ if ($user)
       </button>
     </div>
   </div>
+    <!--Veterinario-->
+    <?php if ($vet) { ?>
+    <div class="card-menu">
+    <a href="./ViewPet.php">
+      <div class="container-fluid d-flex justify-content-center card-menu-box">
+        <div class="card bg-dark text-white mt-5 mb-4">
+          <div class="card-body mt-3">
+            <div class="row g-0">
+              <div class="col-md-8 col-sm-8">
+                <h5 class="card-title">Consultar Pet</h5>
+                <p class="card-text">Consulte um pet pelo código</p>
+              </div>
+              <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
+                <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <?php } else { ?>
+  <!--Medicamentos-->
+  <div class="card-menu
   <!--Meus Pets-->
   <div class="card-menu">
     <a href="./MyPets.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-5 mb-4">
+        <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -184,6 +208,7 @@ if ($user)
       </div>
     </a>
   </div>
+  <?php } ?>
   <script src="./src/js/bootstrap.bundle.min.js"></script>
   <script src="./src/js/scripts.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

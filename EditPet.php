@@ -11,8 +11,8 @@ $_functions = new Functions($dbcon);
 
 Auth::verificaSessionLogin();
 
-$race_pet = $_functions::loadRacePet();
-$type_pet = $_functions::loadTypePet();
+$race_pet = $_functions::loadRacePets();
+$type_pet = $_functions::loadTypePets();
 
 // Post
 if (isset($_POST['Save']) && !isset($_GET['id']) && $_REQUEST) {
