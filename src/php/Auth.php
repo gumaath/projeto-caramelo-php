@@ -56,8 +56,8 @@ class Auth
         if ($session) {
             $dbcon->query("DELETE FROM tb_sessions WHERE user_email = '{$_COOKIE['login']}' AND php_session_id <> '" . $_COOKIE['PHPSESSID'] . "';");
             $dbcon->query("UPDATE tb_sessions SET datetime_session = NOW() WHERE user_email = '{$_COOKIE['login']}' AND php_session_id = '" . $_COOKIE['PHPSESSID'] . "' ORDER BY datetime_session DESC");
+        } else {
+            echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
         }
-
-        return $session;
     }
 }

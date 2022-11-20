@@ -5,9 +5,7 @@ use App\Connect;
 use App\Auth;
 use App\Functions;
 
-if (Auth::verificaSessionLogin() == false) {
-  echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
-}
+Auth::verificaSessionLogin();
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();

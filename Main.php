@@ -9,9 +9,7 @@ $db = new Connect();
 $dbcon = $db->ConnectDB();
 $_functions = new Functions($dbcon);
 
-if (Auth::verificaSessionLogin() == false) 
-  echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
-
+Auth::verificaSessionLogin();
 
 $news = $_functions::getNews();
 $user = $_functions ::getUser();

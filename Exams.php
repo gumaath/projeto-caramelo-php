@@ -2,10 +2,7 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
 use App\Auth;
-
-if (Auth::verificaSessionLogin() == false) {
-    echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
-}
+Auth::verificaSessionLogin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
