@@ -102,29 +102,21 @@ if ($user) {
   <div class="container mt-4" style="width: 80%;">
     <h2>Bem vindo, <?= $user['name_user']?>!</h2>
   </div>   
-  <div class="container mt-5 bg-dark rounded-1" style="width: 80%; height: 19em;">
+  <div class="container mt-5 bg-dark rounded-1" id="carrosel" style="width: 80%; height: 19em; padding: 0 !important;">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
       <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="0" class="active mt-5" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="1" class="mt-5" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="2" class="mt-5" aria-label="Slide 3"></button>
+        <?php foreach ($news as $_id => $new) { ?>
+        <button type="button" data-bs-target="#carouselAds" data-bs-slide-to="<?=$_id?>" class="<?=$_id === array_key_first($news)?'active':''?> mt-5" aria-current="true" aria-label="Slide <?=$new['id_news']?>"></button>
+<?php } ?>
       </div>                   
-      <div class="carousel-inner">
-        <a href="./News.php?id=<?= $news[0]['id_news']?>">
-          <div class="carousel-item active">
-            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
+      <div class="carousel-inner" style="max-height: 19em;">
+      <?php foreach ($news as $_id => $new) { ?>
+        <a href="./News.php?id=<?= $new['id_news']?>">
+          <div class="carousel-item <?=$_id === array_key_first($news)?'active':''?>">
+          <img id="image-<?=$new['id_news']?>" data-src="<?=$new['news_url_photo']?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1" style="max-height: 19em; width: inherit; object-fit: cover;">
           </div>
         </a>
-        <a href="./News.php?id=<?= $news[1]['id_news']?>">
-          <div class="carousel-item">
-            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-          </div>
-        </a>
-        <a href="./News.php?id=<?= $news[2]['id_news']?>">
-          <div class="carousel-item">
-            <img src="src/assets/logominha.png" class="img-fluid mx-auto mb-5 d-block pt-5">
-          </div>
-        </a>
+<?php } ?>
       </div>      
       <button class="carousel-control-prev mt-5 visually-hidden" type="button" data-bs-target="#carouselAds" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -238,6 +230,42 @@ if ($user) {
   </div>
   <script src="./src/js/bootstrap.bundle.min.js"></script>
   <script src="./src/js/scripts.js"></script>    
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+
+(function( $ ) {
+  $.fn.loadImage = function(src,cb,image) {
+    var self = this,
+        dataSrc = $(self).attr("data-src");
+      
+    image = image || new Image();
+    cb = cb || function() {};
+
+    if (typeof src === "undefined") {
+      if (dataSrc.length) {
+          src = dataSrc;
+      } else {
+           throw new Error("You must specify the data-src on the html element or pass an image src path to loadImage()");
+      }
+    }
+    setTimeout(function() {
+      if (image.src != src)
+        image.src = src;
+      if (!image.complete)
+        return self.loadImage(src,cb,image);
+      self.attr('src',src);
+      cb.call(self);
+    },50);
+  };
+})( jQuery );
+</script>
+<script>
+$(document).ready(function(){
+<?php foreach ($news as $new) {?>
+$("#image-<?=$new['id_news']?>").loadImage();
+<?php } ?>
+});
+</script>
 </body>
 
 </html>

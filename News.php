@@ -54,9 +54,12 @@
         </ul>
         </div>
     </div><!--Opções de navegação do Menu de Navegação-->
+    <div class="btn-add-pet container-fluid mt-4 mb-4" style="width: 100%;">
+        <a href="./Main.php" class="btn btn-outline-secondary mt-4 mb-2">Voltar</a>
+    </div>
     <div class="container mt-4" style="width: 80%;">
-        <div class="container border text-center" style="height: 17em;">
-            <img class="img-fluid" src="<?= $news['news_id_photo']?>" onerror="this.src='src/assets/logominha.png';this.className ='error-img';">
+        <div class="container border text-center" style="height: 17em; padding:0; border-radius: 3px;">
+            <img class="img-fluid" style="height: 17em; width: inherit; border-radius: 3px; object-fit: cover;" src="<?= $news['news_url_photo']?>" onerror="this.src='src/assets/logominha.png';this.className ='error-img';">
         </div>
         <hr>
         <h1><?= $news['title_news']?></h1>
@@ -67,5 +70,6 @@
     </div>
     <script src="./src/js/bootstrap.bundle.min.js"></script>    
 <script src="./src/js/scripts.js"></script>    
+
 </body>
 </html>
