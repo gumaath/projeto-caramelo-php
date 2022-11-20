@@ -3,6 +3,11 @@ include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php')
 
 use App\Functions;
 use App\Auth;
+use App\Connect;
+
+$db = new Connect();
+$dbcon = $db->ConnectDB();
+$_functions = new Functions($dbcon);
 
 if (Auth::verificaSessionLogin() == false) {
     echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
@@ -12,7 +17,7 @@ if (Auth::verificaSessionLogin() == false) {
 if (!isset($_GET['id'])) {
     echo "<script>window.location.href = './Main.php'</script>";
 } else {
-    $news = Functions::getNews($_GET['id']);
+    $news = $_functions::getNews($_GET['id']);
 }
 ?>
 

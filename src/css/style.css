@@ -1,0 +1,71 @@
+@media only screen and (max-width: 938px) {
+  .arrow-img {
+    display: none !important;
+  }
+
+  .card-text {
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.card-menu a {
+  text-decoration: none;
+}
+
+.card-text {
+  text-overflow: "..." !important;
+}
+
+.card-menu-box .card:hover {
+  -webkit-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
+  transition: 0.2s !important;
+}
+
+.card-menu-box {
+  max-width: 1280px;
+}
+
+#carrosel {
+  width: 80%;
+  height: 19em;
+  padding: 0 !important;
+}
+
+.card {
+  width: 80%;
+  height: 8em;
+}
+
+.carousel-item .image-news {
+  max-height: 19em;
+  width: inherit;
+  object-fit: cover;
+}
+
+.modal-title,
+.col p,
+.form-check label,
+.col-form-label {
+  color: black !important;
+}
+
+div.is-invalid {
+  top: 100%;
+  z-index: 5;
+  display: inline;
+  max-width: 100%;
+  padding: 0.25rem 0.5rem;
+  margin-top: 0.1rem;
+  font-size: 0.875rem;
+  color: #fff;
+  background-color: rgba(220, 53, 69, 0.9);
+  border-radius: 0.25rem;
+}
+
+.form-control.is-invalid {
+  margin-bottom: 2px;
+}

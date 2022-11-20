@@ -1,29 +1,16 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php');
 
+use App\Functions;
 use App\Connect;
 
-if ($_REQUEST) {
-  $db = new Connect();
-  $dbcon = $db->ConnectDB();
-  $query = $dbcon->query("SELECT email_user FROM tb_users WHERE email_user = '{$_POST['formEmailVolunteer']}'");
-  $_email_usado = $query->fetch();
-  if (!empty($_email_usado)) {
-    $_email_usado = true;
-  } else {
-    $_email_usado = false;
-  }
-}
+$db = new Connect();
+$dbcon = $db->ConnectDB();
+$_functions = new Functions($dbcon);
+
+if ($_REQUEST)
+  $_email_usado = $_functions::validarEmail($_POST['formEmailVolunteer'], true);
 ?>
-<?php if ($_REQUEST && (int)@$_email_usado) { ?>
-  <div class="alert alert-danger" role="alert" style="border-radius: 0; margin: 0;">
-    O e-mail que tentou cadastrar já está em uso.
-  </div>
-<?php } elseif ($_REQUEST) { ?>
-  <div class="alert alert-success" role="alert" style="border-radius: 0; margin: 0;">
-    Sua conta foi criada com sucesso! Você já pode acessa-lá!
-  </div>
-<?php } ?>
 <!doctype html>
 <html lang="en">
 
@@ -32,34 +19,12 @@ if ($_REQUEST) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Anamne Pet</title>
   <link href="./src/css/bootstrap.css" rel="stylesheet">
+  <link href="./src/css/style.css" rel="stylesheet">
+  <script src="./src/js/scripts.js"></script>
 </head>
-<style>
-  .modal-title,
-  .col p,
-  .form-check label,
-  .col-form-label {
-    color: black !important;
-  }
-
-  div.is-invalid {
-    top: 100%;
-    z-index: 5;
-    display: inline;
-    max-width: 100%;
-    padding: 0.25rem 0.5rem;
-    margin-top: 0.1rem;
-    font-size: 0.875rem;
-    color: #fff;
-    background-color: rgba(220, 53, 69, 0.9);
-    border-radius: 0.25rem;
-  }
-
-  .form-control.is-invalid {
-    margin-bottom: 2px;
-  }
-</style>
 
 <body>
+  <?= @$_email_usado['html'] ? $_email_usado['html'] : '' ?>
   <header class="p-3 mb-3 border-bottom text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -76,7 +41,7 @@ if ($_REQUEST) {
 
         <div class="nav col-12 col-lg-auto mb-2 justify-content-center mb-md-0">
           <a href="./login.php"><button type="button" class="btn btn-outline-primary m-1">Fazer login</button></a>
-          <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#FormModal">Cadastre-se</button>
+          <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#FormModal" onclick="masksForm()">Cadastre-se</button>
         </div>
         <!--- Modal --->
         <div class="modal fade FormModal" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -159,149 +124,7 @@ if ($_REQUEST) {
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-  <script>
-    // Máscara para CPF, Telefone e RG.
-    $(document).ready(function() {
-      $('#formCPFVolunteer').mask('000.000.000-00', {
-        reverse: true
-      });
-      $('#formRGVolunteer').mask('00.000.000.000-0', {
-        reverse: true
-      });
-      $('#formTelVolunteer').mask('(00) 00000-0000', {
-        reverse: false
-      });
-    });
 
-    function habilitarCMRV() {
-      if ($('#flexRadioDefault1').is(':checked')) {
-        $('#campocmrv').hide();
-      } else {
-        $('#campocmrv').show();
-      }
-    }
-
-
-    $.validator.addMethod("minAge", function(value, element, min) {
-      var today = new Date();
-      var birthDate = new Date(value);
-      var age = today.getFullYear() - birthDate.getFullYear();
-
-      if (age > min + 1) {
-        return true;
-      }
-
-      var m = today.getMonth() - birthDate.getMonth();
-
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age >= min;
-    }, "Você não tem idade!");
-
-    function validarFormVoluntario() {
-      if ($('#flexRadioDefault1').is(':checked')) {
-        idade_minima = 14
-      } else {
-        idade_minima = 18
-      }
-
-      $('#FormVolunteer').removeData('validator')
-
-      if ($('#FormVolunteer').validate({
-          focusInvalid: true,
-          onfocusout: false,
-          invalidHandler: function(form, validator) {
-            var errors = validator.numberOfInvalids();
-            if (errors) {
-              validator.errorList[0].element.focus();
-            }
-          },
-          errorClass: "is-invalid",
-          errorElement: 'div',
-          rules: {
-            formNomeVolunteer: {
-              required: true,
-              minlength: 5
-            },
-            formSobrenomeVolunteer: {
-              required: true,
-              minlength: 5
-            },
-            formEmailVolunteer: {
-              required: true,
-              minlength: 10
-            },
-            formCPFVolunteer: {
-              required: true,
-
-              minlength: 11
-            },
-            formRGVolunteer: {
-              required: true,
-              minlength: 10
-            },
-            formTelVolunteer: {
-              required: true,
-              minlength: 11
-            },
-            BirthDateVolunteer: {
-              required: true,
-              minAge: idade_minima
-            },
-            formEstadoVolunteer: {
-              required: true
-            },
-          },
-          messages: {
-            formNomeVolunteer: {
-              required: "Por favor, insira seu nome!",
-              minlength: "Seu nome tem que ser maior!"
-            },
-            formSobrenomeVolunteer: {
-              required: "Por favor, insira seu sobrenome!",
-              minlength: "Seu nome tem que ser maior!"
-            },
-            formPassVolunteer: {
-              required: "Por favor, insira uma senha!",
-              minlength: "Seu senha tem que ser maior!"
-            },
-            gender: {
-              required: "Por favor, insira um gênero!",
-            },
-            formEmailVolunteer: {
-              required: "Por favor, insira seu email!",
-              minlength: "Seu email está incompleto!",
-              email: "Este não é um endereço de email válido!"
-            },
-            formCPFVolunteer: {
-              required: "Por favor, insira seu CPF!",
-              minlength: "Seu CPF está incompleto!",
-              number: "Coloque apenas números!"
-            },
-            formRGVolunteer: {
-              required: "Por favor, insira seu RG!",
-              minlength: "Seu RG está incompleto!",
-              number: "Coloque apenas números!"
-            },
-            formTelVolunteer: {
-              required: "Por favor, insira seu número de celular!",
-              minlength: "Seu celular está incompleto!",
-              number: "Coloque apenas números!"
-            },
-            BirthDateVolunteer: {
-              required: "Por favor, insira sua data de nascimento!",
-              max: "Por favor, coloque uma data de nascimento menor que a data de hoje!",
-              minAge: "Por favor, você tem que ter pelo menos " + idade_minima + " anos"
-            },
-          },
-        })); {
-        if ($('#FormVolunteer').valid()) {
-          $('#FormVolunteer').submit();
-        }
-      };
-    };
-  </script>
 </body>
 
 </html>

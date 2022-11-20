@@ -5,30 +5,20 @@ use App\Connect;
 use App\Functions;
 use App\Auth;
 
-if (Auth::verificaSessionLogin() == false) {
-  echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
-}
-
 $db = new Connect();
 $dbcon = $db->ConnectDB();
+$_functions = new Functions($dbcon);
 
-$news = Functions::getNews();
+if (Auth::verificaSessionLogin() == false) 
+  echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
 
-$stmt = $dbcon->query("SELECT 
-                       name_user,
-                       id_user,
-                       role_user
-                       FROM tb_users 
-                       WHERE email_user = '{$_COOKIE['login']}'");
 
-$user = $stmt->fetch();
+$news = $_functions::getNews();
+$user = $_functions ::getUser();
 
-if ($user) {
-  $stmt = $dbcon->query("SELECT *
-                                FROM tb_vets
-                                WHERE id_user = '{$user['id_user']}'");
-  $vet = $stmt->fetch();
-}
+if ($user) 
+  $vet = $_functions::getVet($user);
+
 
 ?>
 <!DOCTYPE html>
@@ -41,39 +31,8 @@ if ($user) {
   <link href="src/css/bootstrap.css" rel="stylesheet" />
   <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="./src/css/style.css">
   <title>Página inicial</title>
-  <style>
-    @media only screen and (max-width: 938px) {
-      .arrow-img {
-        display: none !important;
-      }
-
-      .card-text {
-        text-overflow: ellipsis !important;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-    }
-
-    .card-menu a {
-      text-decoration: none;
-    }
-
-    .card-text {
-      text-overflow: "..." !important;
-    }
-
-    .card-menu-box .card:hover {
-      -webkit-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
-      box-shadow: 0px 5px 11px -1px rgba(0, 0, 0, 0.75);
-      transition: 0.2s !important;
-    }
-
-    .card-menu-box {
-      max-width: 1280px;
-    }
-  </style>
 </head>
 
 <body>
@@ -101,7 +60,7 @@ if ($user) {
   <div class="container mt-4" style="width: 80%;">
     <h2>Bem vindo, <?= $user['name_user'] ?>!</h2>
   </div>
-  <div class="container mt-5 bg-dark rounded-1" id="carrosel" style="width: 80%; height: 19em; padding: 0 !important;">
+  <div class="container mt-5 bg-dark rounded-1" id="carrosel">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
       <div class="carousel-indicators">
         <?php foreach ($news as $_id => $new) { ?>
@@ -112,7 +71,7 @@ if ($user) {
         <?php foreach ($news as $_id => $new) { ?>
           <a href="./News.php?id=<?= $new['id_news'] ?>">
             <div class="carousel-item <?= $_id === array_key_first($news) ? 'active' : '' ?>">
-              <img id="image-<?= $new['id_news'] ?>" data-src="<?= $new['news_url_photo'] ?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1" style="max-height: 19em; width: inherit; object-fit: cover;">
+              <img id="image-<?= $new['id_news'] ?>" data-src="<?= $new['news_url_photo'] ?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1 image-news">
             </div>
           </a>
         <?php } ?>
@@ -131,7 +90,7 @@ if ($user) {
   <div class="card-menu">
     <a href="./MyPets.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-5 mb-4" style="width: 80%; height: 8em;">
+        <div class="card bg-dark text-white mt-5 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -151,7 +110,7 @@ if ($user) {
   <div class="card-menu">
     <a href="">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -171,7 +130,7 @@ if ($user) {
   <div class="card-menu">
     <a href="./Vaccines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -191,7 +150,7 @@ if ($user) {
   <div class="card-menu">
     <a href="./Medicines.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -211,7 +170,7 @@ if ($user) {
   <div class="card-menu">
     <a href="./Exams.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4" style="width: 80%; height: 8em;">
+        <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
@@ -230,33 +189,7 @@ if ($user) {
   <script src="./src/js/bootstrap.bundle.min.js"></script>
   <script src="./src/js/scripts.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <script>
-    (function($) {
-      $.fn.loadImage = function(src, cb, image) {
-        var self = this,
-          dataSrc = $(self).attr("data-src");
-
-        image = image || new Image();
-        cb = cb || function() {};
-
-        if (typeof src === "undefined") {
-          if (dataSrc.length) {
-            src = dataSrc;
-          } else {
-            throw new Error("You must specify the data-src on the html element or pass an image src path to loadImage()");
-          }
-        }
-        setTimeout(function() {
-          if (image.src != src)
-            image.src = src;
-          if (!image.complete)
-            return self.loadImage(src, cb, image);
-          self.attr('src', src);
-          cb.call(self);
-        }, 50);
-      };
-    })(jQuery);
-  </script>
+  <script src="./src/js/loaderimage.js"></script>
   <script>
     $(document).ready(function() {
       <?php foreach ($news as $new) { ?>
