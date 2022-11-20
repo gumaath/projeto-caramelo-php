@@ -28,6 +28,8 @@ if ($photos) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="src/css/bootstrap.css" rel="stylesheet" />
   <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
+  <link href="src/css/alertify.css" rel="stylesheet" />
+  <link href="src/css/themes/bootstrap.css" rel="stylesheet" />
   <link rel="stylesheet" href="src/css/style.css">
   <title>Meus pets</title>
 </head>
@@ -78,6 +80,25 @@ if ($photos) {
                 <p class="card-text mt-3">Nascimento: <?= $pet['birth_pet'] ?></p>
                 <p class="card-text mt-3">Raça: <?= $race_pet['name_race'] ?></p>
                 <a href="./EditPet.php?id=<?= $pet['id_pet'] ?>" class="btn btn-primary mt-3">Visualizar</a>
+                <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#ModalCodigo<?=$pet['name_pet']?>">Código Único</button>
+              </div>
+            </div>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="ModalCodigo<?=$pet['name_pet']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Código única para <?=$pet['name_pet']?></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body<?=$pet['id_pet']?>">
+                  <button type="button" class="btn btn-success" onclick="gerarCodigo(<?=$pet['id_pet']?>) "id="codigo-unico-<?=$pet['id_pet']?>">Gerar código único</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-success" onclick="copiarValor(<?=$pet['id_pet']?>)" id="copiar<?=$pet['id_pet']?>" data-bs-dismiss="modal" disabled>Copiar</button>
+                </div>
               </div>
             </div>
           </div>
@@ -90,6 +111,16 @@ if ($photos) {
   <!--Container principal-->
   <script src="./src/js/bootstrap.bundle.min.js"></script>
   <script src="./src/js/scripts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script src="./src/js/script-unique-access.js"></script>
+  <script src="./src/js/alertify.js"></script>
+  <script>
+    function copiarValor(id_pet) {
+      var codigo = $('#copiar'+id_pet).attr("valor");
+      navigator.clipboard.writeText(codigo);
+      alertify.success('Código copiado! (Está no seu CTRL+V)');
+    }
+  </script>
 </body>
 
 </html>
