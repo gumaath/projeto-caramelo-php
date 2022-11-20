@@ -104,6 +104,30 @@ class Functions
         return $pet;
     }
 
+    public static function getAllPetsOwner($user)
+    {
+        $sth = $GLOBALS['db']->query("SELECT * FROM tb_pets where id_owner = '{$user['id_user']}'");
+        $pets = $sth->fetchAll();
+        return $pets;
+    }
+
+    public static function getAllPetsPhotosOwner($user)
+    {
+        $user_pets = $GLOBALS['db']->query("SELECT * FROM tb_pets where id_owner = '{$user['id_user']}'");
+        foreach ($user_pets as $pet) {
+            $pets_id[$pet['id_pet']] = $pet['id_pet'];
+        }
+        unset($user_pets);
+        if(@$pets_id) {
+        $_pets_ids = implode(',', $pets_id);
+        $sth = $GLOBALS['db']->query("SELECT * FROM tb_photos WHERE id_pet in ({$_pets_ids})");
+        $photos = $sth->fetchAll();
+        return $photos;
+        } else {
+            return false;
+        }
+    }
+
     public static function getPhoto($_id_pet)
     {
         $sth = $GLOBALS['db']->query("SELECT * FROM tb_photos WHERE id_pet = {$_id_pet} ");

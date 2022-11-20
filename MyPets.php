@@ -3,6 +3,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/vendor/autoload.php')
 
 use App\Connect;
 use App\Auth;
+use App\Functions;
 
 if (Auth::verificaSessionLogin() == false) {
   echo "<script>alert('Faça login novamente!');window.location.href = './login.php';</script>";
@@ -10,14 +11,14 @@ if (Auth::verificaSessionLogin() == false) {
 
 $db = new Connect();
 $dbcon = $db->ConnectDB();
-$sth = $dbcon->query("SELECT * FROM tb_users where email_user = '{$_COOKIE['login']}'");
-$user = $sth->fetch();
-$sth = $dbcon->query("SELECT * FROM tb_pets where id_owner = '{$user['id_user']}'");
-$pets = $sth->fetchAll();
-$sth = $dbcon->query("SELECT * FROM tb_photos");
-$photos = $sth->fetchAll();
-foreach ($photos as $id => $photo) {
-  $photos_pets[$photo['id_pet']] = $photo['blob_photo'];
+$_functions = new Functions($dbcon);
+$_user = $_functions::getUser();
+$pets = $_functions::getAllPetsOwner($_user);
+$photos = $_functions::getAllPetsPhotosOwner($_user);
+if ($photos) {
+  foreach ($photos as $id => $photo) {
+    $photos_pets[$photo['id_pet']] = $photo['blob_photo'];
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -29,37 +30,8 @@ foreach ($photos as $id => $photo) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="src/css/bootstrap.css" rel="stylesheet" />
   <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
+  <link rel="stylesheet" href="src/css/style.css">
   <title>Meus pets</title>
-  <style>
-    .error-img {
-      width: 100%;
-      height: 160px;
-      margin: 0 auto;
-    }
-
-    @media only screen and (max-width: 675px) {
-
-      .btn-add-pet {
-        text-align: center;
-      }
-
-      .btn-success {
-        width: 90%;
-      }
-
-      .main-card {
-        width: 100% !important;
-      }
-
-    }
-
-    @media only screen and (max-width: 465px) {
-      .main-card {
-        width: 100% !important;
-      }
-
-    }
-  </style>
 </head>
 
 <body>
@@ -93,23 +65,27 @@ foreach ($photos as $id => $photo) {
   <div class="container mt-4 mb-4 col-sm-12 col-md-12 h-50 d-flex m-auto justify-content-center align-self-center" style="width: 80%;">
     <!--Container principal-->
     <div class="row">
-      <?php foreach ($pets as $pet) {
-        $sth = $dbcon->query("SELECT name_race FROM aux_race_pets where id_race = '{$pet['race_pet']}'");
-        $race_pet = $sth->fetch();
+      <?php if ($pets) {
+        foreach ($pets as $pet) {
+          $sth = $dbcon->query("SELECT name_race FROM aux_race_pets where id_race = '{$pet['race_pet']}'");
+          $race_pet = $sth->fetch();
       ?>
-        <div class="main-card col p-1 d-flex">
-          <div class="card mx-auto" style="width: 18rem; height: 25rem;">
-            <div class="bg-dark rounded-top" style="max-height: 160px;">
-              <img src="<?= isset($photos_pets[$pet['id_pet']]) ? 'data:image/jpeg;base64,' . $photos_pets[$pet['id_pet']] : '...' ?>" class="card-img-top img-fluid" style="max-height:160px" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
-            </div>
-            <div class="card-body">
-              <h5 class="card-title mt-3"><?= $pet['name_pet'] ?></h5>
-              <p class="card-text mt-3">Nascimento: <?= $pet['birth_pet'] ?></p>
-              <p class="card-text mt-3">Raça: <?= $race_pet['name_race'] ?></p>
-              <a href="./EditPet.php?id=<?= $pet['id_pet'] ?>" class="btn btn-primary mt-3">Visualizar</a>
+          <div class="main-card col p-1 d-flex">
+            <div class="card mx-auto" style="width: 18rem; height: 25rem;">
+              <div class="bg-dark rounded-top" style="max-height: 160px;">
+                <img src="<?= isset($photos_pets[$pet['id_pet']]) ? 'data:image/jpeg;base64,' . $photos_pets[$pet['id_pet']] : '...' ?>" class="card-img-top img-fluid" style="max-height:160px" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title mt-3"><?= $pet['name_pet'] ?></h5>
+                <p class="card-text mt-3">Nascimento: <?= $pet['birth_pet'] ?></p>
+                <p class="card-text mt-3">Raça: <?= $race_pet['name_race'] ?></p>
+                <a href="./EditPet.php?id=<?= $pet['id_pet'] ?>" class="btn btn-primary mt-3">Visualizar</a>
+              </div>
             </div>
           </div>
-        </div>
+        <?php }
+      } else { ?>
+        <div>Você não tem nenhum pet cadastrado.</div>
       <?php } ?>
     </div>
   </div>
