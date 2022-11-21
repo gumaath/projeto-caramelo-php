@@ -71,7 +71,7 @@ if ($photos) {
           $race_pet = $sth->fetch();
       ?>
           <div class="main-card col p-1 d-flex">
-            <div class="card mx-auto" style="width: 18rem; height: 25rem;">
+            <div class="card mx-auto" style="width: 18rem; height: 27rem;">
               <div class="bg-dark rounded-top" style="max-height: 160px;">
                 <img src="<?= isset($photos_pets[$pet['id_pet']]) ? 'data:image/jpeg;base64,' . $photos_pets[$pet['id_pet']] : '...' ?>" class="card-img-top img-fluid" style="max-height:160px" onerror="this.src='src/assets/no_image.jpg';this.className='error-img';">
               </div>
@@ -96,7 +96,7 @@ if ($photos) {
                   <button type="button" class="btn btn-success" onclick="gerarCodigo(<?=$pet['id_pet']?>) "id="codigo-unico-<?=$pet['id_pet']?>">Gerar código único</button>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
                   <button type="button" class="btn btn-success" onclick="copiarValor(<?=$pet['id_pet']?>)" id="copiar<?=$pet['id_pet']?>" data-bs-dismiss="modal" disabled>Copiar</button>
                 </div>
               </div>
