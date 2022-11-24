@@ -65,7 +65,7 @@ if ($_REQUEST) {
                 <h6>Não possui conta?</h6>
             </div>
             <div class="d-flex align-items-center justify-content-center">
-                <a href="">Cadastrar</a>
+                <a href="./index.php">Cadastrar</a>
             </div>
         </div>
     </main>

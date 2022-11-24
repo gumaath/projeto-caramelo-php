@@ -8,8 +8,12 @@ $db = new Connect();
 $dbcon = $db->ConnectDB();
 $_functions = new Functions($dbcon);
 
-if ($_REQUEST)
-  $_email_usado = $_functions::validarEmail($_POST['formEmailVolunteer'], true);
+if ($_REQUEST) {
+    $_email_usado = $_functions::validarEmail($_POST['formEmail'], true);
+    if((int)$_email_usado['status']){
+      $_functions::cadastrarUsuario($_POST);
+    }
+  } 
 ?>
 <!doctype html>
 <html lang="en">
@@ -52,27 +56,27 @@ if ($_REQUEST)
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="" id="FormVolunteer" method="post" novalidate>
+                <form action="" id="FormRegister" method="post" novalidate>
                   <div class="row mb-3">
                     <div class="col">
                       <div class="form-check">
-                        <input class="form-check-input" onclick="habilitarCMRV()" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" onclick="habilitarCMRV()" value="1" type="radio" name="tipoUsuario" id="tipoUsuario1" checked>
+                        <label class="form-check-label" for="tipoUsuario1">
                           Para tutor
                         </label>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-check">
-                        <input class="form-check-input" onclick="habilitarCMRV()" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" onclick="habilitarCMRV()" value="2" type="radio" name="tipoUsuario" id="tipoUsuario2">
+                        <label class="form-check-label" for="tipoUsuario2">
                           Para veterinário
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" id="formNomeVolunteer" name="formNomeVolunteer" placeholder="Nome" required>
+                    <input type="text" class="form-control" id="formNome" name="formNome" placeholder="Nome" required>
                   </div>
                   <div class="mb-3">
                     <select class="form-select" id="gender" aria-label="Letra sangue" name="gender" required>
@@ -83,34 +87,34 @@ if ($_REQUEST)
                     </select>
                   </div>
                   <div class="mb-3">
-                    <input type="email" class="form-control" id="formEmailVolunteer" name="formEmailVolunteer" placeholder="Email" required>
+                    <input type="email" class="form-control" id="formEmail" name="formEmail" placeholder="Email" required>
                   </div>
                   <div class="mb-3">
-                    <input type="password" class="form-control" id="formPassVolunteer" name="formPassVolunteer" placeholder="Senha" required>
+                    <input type="password" class="form-control" id="formPass" name="formPass" placeholder="Senha" required>
                   </div>
                   <div class="mb-3" id="campocmrv" style="display:none">
-                    <input type="text" class="form-control" id="formCMRVVolunteer" name="formCMRVVolunteer" placeholder="CMRV" required>
+                    <input type="text" class="form-control" id="formCMRV" name="formCMRV" placeholder="CMRV" required>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" id="formCPFVolunteer" name="formCPFVolunteer" placeholder="CPF" required>
+                    <input type="text" class="form-control" id="formCPF" name="formCPF" placeholder="CPF" required>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" id="formRGVolunteer" name="formRGVolunteer" placeholder="RG" required>
+                    <input type="text" class="form-control" id="formRG" name="formRG" placeholder="RG" required>
                   </div>
                   <div class="mb-3">
-                    <input type="text" class="form-control" id="formTelVolunteer" name="formTelVolunteer" placeholder="Telefone" required>
+                    <input type="text" class="form-control" id="formTel" name="formTel" placeholder="Telefone" required>
                   </div>
                   <div class="form-group row mb-3">
                     <label for="inputEmail3" class="col-5 col-form-label">Data de nascimento</label>
                     <div class="col-7">
-                      <input id="startDate" required class="form-control" type="date" name="BirthDateVolunteer" max="<?= date("Y-m-d") ?>" />
+                      <input id="startDate" required class="form-control" type="date" name="BirthDate" max="<?= date("Y-m-d") ?>" />
                     </div>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="submit" id="botaoVolunteer" name="botaoVolunteer" onclick="validarFormVoluntario()" class="btn btn-primary">Enviar</button>
+                <button type="submit" id="botao" name="botao" onclick="validarForm()" class="btn btn-primary">Enviar</button>
               </div>
             </div>
           </div>

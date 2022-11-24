@@ -224,12 +224,14 @@ class Functions
         $_email_usado = $query->fetch();
         if (!empty($_email_usado)) {
             $_email_usado['usado'] = true;
+            $_email_usado['status'] = 0;
         } else {
             $_email_usado['usado'] = false;
+            $_email_usado['status'] = 1;
         }
 
         if ($_aviso) {
-            if ($_email_usado) {
+            if ((int)$_email_usado['usado']) {
                 $_email_usado['html'] = '<div class="alert alert-danger" role="alert" style="border-radius: 0; margin: 0;">
                                                 O e-mail que tentou cadastrar já está em uso.
                                             </div>';
@@ -240,5 +242,21 @@ class Functions
             }
         }
         return $_email_usado;
+    }
+
+    public static function cadastrarUsuario($params) {
+      switch ($params['tipoUsuario']) {
+        case 1:
+          $tipo_usuario = 'TUTOR';
+          break;
+        case 2:
+          $tipo_usuario = 'VET';
+          break;
+      }
+      $stmt = $GLOBALS['db']->query("INSERT INTO tb_users (name_user, cpf_user, rg_user, birth_user, role_user, email_user, tel_user, gender_user, passwd_user, active_user)
+        VALUES('{$params['formNome']}', '{$params['formCPF']}', '{$params['formRG']}', '{$params['BirthDate']}', '{$tipo_usuario}', '{$params['formEmail']}', '{$params['formTel']}', '{$params['gender']}', '{$params['formPass']}', 1)");
+      if($tipo_usuario == 'VET') {
+        $stmt = $GLOBALS['db']->query("INSERT INTO tb_vets (crmv_vet, id_user) VALUES ({$params['formCMRV']}, {$GLOBALS['db']->lastInsertId()})");
+      }
     }
 }
