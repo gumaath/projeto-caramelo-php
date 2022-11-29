@@ -17,7 +17,9 @@ if($_REQUEST) {
     if(@$pet) {
         $race_pet = $_functions::loadRacePet($pet['race_pet']);
         $type_pet = $_functions::loadTypePet($pet['type_pet']);
-    }
+    } elseif(empty(@$pet)) {
+        echo "<script>alert('Código expirado ou incorreto!')</script>";
+    }      
 }
 ?>
 
@@ -30,7 +32,7 @@ if($_REQUEST) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
-    <title>Vacinas</title>
+    <title>Consultar Pet</title>
 </head>
 
 <body>
@@ -85,22 +87,15 @@ if($_REQUEST) {
                 <p class="card-text">Raça: <?=$race_pet['name_race']?></p>
                 <span class="card-text">Data de nascimento:</span>
                 <span class="text-muted d-inline"><?=$pet['birth_pet']?></span>
-                <button data-bs-toggle="collapse" class="btn btn-primary d-block mt-3" data-bs-target="#attachment">Abrir perfil do pet</button>
-                <div id="attachment" class="collapse mt-2 border">
-                    <img class="zoom" src="src/assets/logominha.png" alt="..." width="100%" height="120">
-                </div>
+                <br>
+                <a class="btn btn-primary mt-3" href="#">Abrir perfil do pet</a>
             </div>
         </div>
         <?php } ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
     <script src="./src/js/bootstrap.bundle.min.js"></script>
-    <script src="./src/js/scripts.js"></script>
-    <script>
-        mediumZoom('.zoom', {
-            margin: 50
-        })
-    </script>
+    <script src="./src/js/scripts.js"></script>   
 </body>
 
 </html>

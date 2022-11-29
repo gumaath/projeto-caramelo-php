@@ -58,7 +58,7 @@ if ($user)
   <div class="container mt-4" style="width: 80%;">
     <h2>Bem vindo, <?= $user['name_user'] ?>!</h2>
   </div>
-  <div class="container mt-5 bg-dark rounded-1" id="carrosel">
+  <div class="container mt-5 mb-5 bg-dark rounded-1" id="carrosel">
     <div id="carouselAds" class="carousel slide" data-bs-ride="carousel" class="bg-dark">
       <div class="carousel-indicators">
         <?php foreach ($news as $_id => $new) { ?>
@@ -69,7 +69,7 @@ if ($user)
         <?php foreach ($news as $_id => $new) { ?>
           <a href="./News.php?id=<?= $new['id_news'] ?>">
             <div class="carousel-item <?= $_id === array_key_first($news) ? 'active' : '' ?>">
-              <img id="image-<?= $new['id_news'] ?>" data-src="<?= $new['news_url_photo'] ?>" src="./src/assets/loader.gif" class="img-fluid mx-auto mb-5 d-block rounded-1 image-news">
+              <img id="image-<?= $new['id_news'] ?>" data-src="<?= $new['news_url_photo'] ?>" src="./src/assets/loader.gif" onerror="this.src='src/assets/no_image.jpg';this.className='error-img-news';" class="img-fluid mx-auto mb-5 d-block rounded-1 image-news">
             </div>
           </a>
         <?php } ?>

@@ -23,20 +23,26 @@ function getPetByCode($code) {
     $db = new Connect();
     $dbcon = $db->ConnectDB();
     $sth = $dbcon->query("SELECT * FROM tb_unique_access WHERE code_access = '{$code}'");
-    $_codigo = $sth->fetch();
-    date_default_timezone_set('America/Sao_Paulo');
-    $agora = strtotime(date('Y-m-d H:i:s'));
-    $codigo_tempo = strtotime($_codigo['time_expiration']);
-    $tempo_expirado = $agora-$codigo_tempo;
-    if ($tempo_expirado >= 900)
-         $tempo_expirado = true;
-    else 
-        $tempo_expirado = false;
-    if ($_codigo && !$tempo_expirado) {
-        $sth = $dbcon->query("SELECT * FROM tb_pets WHERE id_pet = {$_codigo['id_pet']}");
-        $_pet = $sth->fetch();
+    $sth_exists = $dbcon->query("SELECT EXISTS(SELECT 1 FROM tb_unique_access WHERE code_access = '{$code}')");
+
+    if($sth_exists->fetchColumn()) {
+        $_codigo = $sth->fetch();  
+        date_default_timezone_set('America/Sao_Paulo');
+        $agora = strtotime(date('Y-m-d H:i:s'));
+        $codigo_tempo = strtotime($_codigo['time_expiration']);
+        $tempo_expirado = $agora-$codigo_tempo;
+        if ($tempo_expirado >= 900)
+            $tempo_expirado = true;
+        else 
+            $tempo_expirado = false;
+        if ($_codigo && !$tempo_expirado) {
+            $sth = $dbcon->query("SELECT * FROM tb_pets WHERE id_pet = {$_codigo['id_pet']}");
+            $_pet = $sth->fetch();
+        }
+        if (@$_pet)
+            return $_pet;
     }
-    if (@$_pet)
-        return $_pet;
+    
+    return ;
 }
 ?>
