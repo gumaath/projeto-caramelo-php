@@ -83,6 +83,7 @@ $_types = $_functions::getSelectOption('aux_type_pets', 'type');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="src/css/bootstrap.css" rel="stylesheet" />
   <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
+  <link rel="stylesheet" href="src/css/style.css">
   <title>Editar Pet</title>
   <style>
     .input-group-header {
@@ -142,18 +143,17 @@ $_types = $_functions::getSelectOption('aux_type_pets', 'type');
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <img class="mx-auto d-block img-fluid" src="src/assets/logominha.png" width="140" height="70" alt="Logo do aplicativo: AnamnePet">
+<nav class="navbar navbar-dark bg-dark">
+    <img class="mx-auto d-block img-fluid rounded" src="src/assets/logotmp.png" width="140" height="70" alt="Logo do aplicativo: AnamnePet">
     <button class="navbar-toggler mx-4" type="button" data-bs-toggle="collapse" href="#navbarMenuOptions" aria-controls="navbarMenuOptions" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   </nav>
   <div class="collapse text-center" id="navbarMenuOptions">
-    <!--Opções de navegação do Menu de Navegação-->
     <div class="bg-dark p-4">
       <ul class="navbar-nav text-white">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="./Main.php">Menu principal</a>
+          <a class="nav-link" aria-current="page" href="#">Menu principal</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="#">Meu perfil</a>

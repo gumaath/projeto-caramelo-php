@@ -32,14 +32,14 @@ if ($_REQUEST) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link href="./src/css/bootstrap.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-dark text-white">
     <main class="container h-50 m-auto justify-content-center align-self-center">
         <div class="d-flex align-items-center justify-content-center mb-5">
-            <img style="min-width: 120px; max-width: 150px;" src="./src/assets/logominha.png" alt="">
+            <img style="min-width: 120px; max-width: 150px;" class="rounded m-3" src="./src/assets/logotmp.png" alt="">
         </div>
         <div class="justify-content-center align-self-center">
             <div class="d-flex align-items-center justify-content-center mb-3">
