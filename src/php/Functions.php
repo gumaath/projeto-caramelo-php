@@ -517,4 +517,22 @@ if ($uploadOk == 0) {
 
         return $result;
     }
+
+    public static function cadastrarPrescricao($params)
+    {
+        $stmt = $GLOBALS['db']->query("INSERT INTO tb_prescriptions (title_prescription, id_pet, id_vet, date_prescription, content_prescription)
+                 VALUES ('{$params['formNome']}',{$params['id_pet']}, {$params['id_vet']}, '{$params['DateApplication']}', '{$params['formDesc']}')");
+    }
+
+    public static function cadastrarMedicamento($params)
+    {
+        $stmt = $GLOBALS['db']->query("INSERT INTO tb_medicines (name_medicine, id_pet, id_vet, aplication_date, description)
+                 VALUES ('{$params['formNome']}',{$params['id_pet']}, {$params['id_vet']}, '{$params['DateApplication']}', '{$params['formDesc']}')");
+    }
+
+    public static function cadastrarExame($params)
+    {
+        $stmt = $GLOBALS['db']->query("INSERT INTO tb_anamnese (title_anamnese, id_pet, id_vet, date_anamnese, content_anamnese)
+                 VALUES ('{$params['formNome']}',{$params['id_pet']}, {$params['id_vet']}, '{$params['DateApplication']}', '{$params['formDesc']}')");
+    }
 }
