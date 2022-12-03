@@ -47,9 +47,6 @@ if($_REQUEST) {
         <div class="bg-dark p-4">
             <ul class="navbar-nav text-white">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Menu principal</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
                 </li>
                 <li class="nav-item">

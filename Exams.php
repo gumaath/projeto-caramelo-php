@@ -13,7 +13,7 @@ Auth::verificaSessionLogin();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
-    <title>Vacinas</title>
+    <title>Exames</title>
 </head>
 
 <body>

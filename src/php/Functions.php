@@ -259,4 +259,70 @@ class Functions
         $stmt = $GLOBALS['db']->query("INSERT INTO tb_vets (crmv_vet, id_user) VALUES ({$params['formCMRV']}, {$GLOBALS['db']->lastInsertId()})");
       }
     }
+
+    public static function returnVaccineData($id_pet, $vaccine_name = null, $vaccine_date = null) {
+
+        $sqlExists = "SELECT EXISTS(SELECT 1 FROM tb_vaccines WHERE id_pet = {$id_pet})";
+        $sth_exists = $GLOBALS['db']->query($sqlExists);
+        
+        if(!$sth_exists->fetchColumn()) { 
+            return null;
+        }
+
+        $sql = 
+        "SELECT 
+            va.id_vaccine as id_vacina,
+            va.name_vaccine as vacina, 
+            va.description as descricao,
+            va.aplication_date as data_aplicacao,   
+            va.attachment_url as url,         
+            p.name_pet as pet,  
+            p.id_pet as id_pet,
+            u.name_user as vet,
+            u.tel_user as fone
+        FROM tb_vaccines as va 
+            INNER JOIN tb_pets p ON
+                p.id_pet = va.id_pet
+            INNER JOIN tb_vets v ON
+                v.id_vet = va.id_vet
+            INNER JOIN tb_users u ON
+                u.id_user = v.id_user 
+        WHERE va.id_pet = {$id_pet} ";
+
+        if((!empty($vaccine_name) && !empty($vaccine_date)) && ($vaccine_name != null && $vaccine_date != null)) {
+            $sql .= " AND name_vaccine = '{$vaccine_name}' AND aplication_date = '{$vaccine_date}' ";                       
+        }
+
+        if((!empty($vaccine_name) && $vaccine_name != null) && ($vaccine_date == null || empty($vaccine_date))) {
+            $sql .= " AND name_vaccine = '{$vaccine_name}' ";
+        }
+
+        if((!empty($vaccine_date) && $vaccine_date != null) && ($vaccine_name == null || empty($vaccine_name))) {
+            $sql .= " AND aplication_date = '{$vaccine_date}' ";
+        }
+
+        $stmt = $GLOBALS['db']->query($sql);
+
+        $data = $stmt->fetchAll();
+        return $data;
+    }
+
+    public static function formatDate($date) {
+
+        $date = explode("-", $date);
+        $dataRefact = $date[2]."/".$date[1]."/".$date[0];
+    
+        echo $dataRefact;
+    }
+
+    public static function formatWhatsApp($fone) {
+        $fone = explode("-", $fone);
+        $fone = trim($fone[0]).trim($fone[1]);                
+
+        $fone = str_replace("(", "", $fone);
+        $wpp = str_replace(")", "", $fone);        
+
+        return preg_replace("/\s+/", '', $wpp);
+    }
+    
 }

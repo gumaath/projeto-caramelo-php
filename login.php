@@ -13,7 +13,7 @@ if ($_REQUEST) {
             setcookie('login', $login, 0, '/');
             header("Location: ./Main.php");
         } else {
-            echo "Erro";
+            echo "<script>alert('Usuário ou senha incorretos, tente novamente!')</script>";
         }
     } catch (Exception $th) {
         throw new Exception($th);
@@ -32,7 +32,7 @@ if ($_REQUEST) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link href="./src/css/bootstrap.css" rel="stylesheet">
 </head>
 

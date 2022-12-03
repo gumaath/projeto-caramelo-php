@@ -44,9 +44,6 @@ if ($user)
     <div class="bg-dark p-4">
       <ul class="navbar-nav text-white">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Menu principal</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" aria-current="page" href="#">Meu perfil</a>
         </li>
         <li class="nav-item">
@@ -106,8 +103,6 @@ if ($user)
     </a>
   </div>
   <?php } else { ?>
-  <!--Medicamentos-->
-  <div class="card-menu
   <!--Meus Pets-->
   <div class="card-menu">
     <a href="./MyPets.php">
@@ -128,26 +123,6 @@ if ($user)
       </div>
     </a>
   </div>
-  <!--Prescrição nutricional-->
-  <div class="card-menu">
-    <a href="">
-      <div class="container-fluid d-flex justify-content-center card-menu-box">
-        <div class="card bg-dark text-white mt-1 mb-4">
-          <div class="card-body mt-3">
-            <div class="row g-0">
-              <div class="col-md-8 col-sm-8">
-                <h5 class="card-title">Prescrição nutricional</h5>
-                <p class="card-text">Histórico das prescrições receitadas para meu pet.</p>
-              </div>
-              <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
-                <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
   <!--Vacinas-->
   <div class="card-menu">
     <a href="./Vaccines.php">
@@ -158,6 +133,26 @@ if ($user)
               <div class="col-md-8 col-sm-8">
                 <h5 class="card-title">Vacinas</h5>
                 <p class="card-text">Vacinas aplicadas em meu pet.</p>
+              </div>
+              <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
+                <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>  
+  <!--Prescrição nutricional-->
+  <div class="card-menu">
+    <a href="">
+      <div class="container-fluid d-flex justify-content-center card-menu-box">
+        <div class="card bg-dark text-white mt-1 mb-4">
+          <div class="card-body mt-3">
+            <div class="row g-0">
+              <div class="col-md-8 col-sm-8">
+                <h5 class="card-title">Prescrição nutricional</h5>
+                <p class="card-text">Histórico das prescrições receitadas para meu pet.</p>
               </div>
               <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
                 <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
