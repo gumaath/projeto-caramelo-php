@@ -290,11 +290,11 @@ class Functions
         WHERE va.id_pet = {$id_pet} ";
 
         if((!empty($vaccine_name) && !empty($vaccine_date)) && ($vaccine_name != null && $vaccine_date != null)) {
-            $sql .= " AND name_vaccine = '{$vaccine_name}' AND aplication_date = '{$vaccine_date}' ";                       
+            $sql .= " AND name_vaccine like '{$vaccine_name}%' AND aplication_date = '{$vaccine_date}' ";                       
         }
 
         if((!empty($vaccine_name) && $vaccine_name != null) && ($vaccine_date == null || empty($vaccine_date))) {
-            $sql .= " AND name_vaccine = '{$vaccine_name}' ";
+            $sql .= " AND name_vaccine like '{$vaccine_name}%' ";
         }
 
         if((!empty($vaccine_date) && $vaccine_date != null) && ($vaccine_name == null || empty($vaccine_name))) {
@@ -305,6 +305,132 @@ class Functions
 
         $data = $stmt->fetchAll();
         return $data;
+    }
+
+    public static function returnPrescriptionData($id_pet, $date = null) {
+        
+        $sqlExists = "SELECT EXISTS(SELECT 1 FROM tb_prescriptions WHERE id_pet = {$id_pet})";
+        $sth_exists = $GLOBALS['db']->query($sqlExists);
+        
+        if(!$sth_exists->fetchColumn()) { 
+            return null;
+        }
+
+        $sql = 
+        "SELECT 
+            ps.id_prescription as id_ps,
+            ps.title_prescription as title,
+            ps.content_prescription as content,
+            ps.date_prescription as date_ps,
+            p.name_pet as pet,  
+            p.id_pet as id_pet,
+            u.name_user as vet,
+            u.tel_user as fone
+        FROM tb_prescriptions as ps 
+            INNER JOIN tb_pets p ON
+                p.id_pet = ps.id_pet
+            INNER JOIN tb_vets v ON
+                v.id_vet = ps.id_vet
+            INNER JOIN tb_users u ON
+                u.id_user = v.id_user 
+        WHERE ps.id_pet = {$id_pet} ";
+
+        if((!empty($date) && $date != null)) {
+            $sql .= " AND date_prescription = '{$date}' ";
+        }
+
+        $stmt = $GLOBALS['db']->query($sql);
+
+        $data = $stmt->fetchAll();
+        return $data;
+
+    }
+
+    public static function returnMedicineData($id_pet, $name = null, $date = null) {
+        
+        $sqlExists = "SELECT EXISTS(SELECT 1 FROM tb_medicines WHERE id_pet = {$id_pet})";
+        $sth_exists = $GLOBALS['db']->query($sqlExists);
+        
+        if(!$sth_exists->fetchColumn()) { 
+            return null;
+        }
+
+        $sql = 
+        "SELECT 
+            m.id_medicine as id_med,
+            m.name_medicine as name_med,
+            m.aplication_date as date_med,
+            m.description as descricao,
+            p.name_pet as pet,  
+            p.id_pet as id_pet,
+            u.name_user as vet,
+            u.tel_user as fone
+        FROM tb_medicines as m 
+            INNER JOIN tb_pets p ON
+                p.id_pet = m.id_pet
+            INNER JOIN tb_vets v ON
+                v.id_vet = m.id_vet
+            INNER JOIN tb_users u ON
+                u.id_user = v.id_user 
+        WHERE m.id_pet = {$id_pet} ";
+
+        if((!empty($name) && !empty($date)) && ($name != null && $date != null)) {
+            $sql .= " AND name_medicine like '{$name}%' AND aplication_date = '{$date}' ";                       
+        }
+
+        if((!empty($name) && $name != null) && ($date == null || empty($date))) {
+            $sql .= " AND name_medicine like '{$name}%' ";
+        }
+
+        if((!empty($date) && $date != null) && ($name == null || empty($name))) {
+            $sql .= " AND aplication_date = '{$date}' ";
+        }
+
+        $stmt = $GLOBALS['db']->query($sql);
+
+        $data = $stmt->fetchAll();
+        return $data;
+
+    }
+
+    public static function returnAnamneseData($id_pet, $date = null) {
+        
+        $sqlExists = "SELECT EXISTS(SELECT 1 FROM tb_anamnese WHERE id_pet = {$id_pet})";
+        $sth_exists = $GLOBALS['db']->query($sqlExists);
+        
+        if(!$sth_exists->fetchColumn()) { 
+            return null;
+        }
+
+        $sql = 
+        "SELECT 
+            a.id_anamnese as id_a,
+            a.title_anamnese as title,
+            a.content_anamnese as content,
+            a.date_anamnese as date_a,
+            p.name_pet as pet,  
+            p.id_pet as id_pet,
+            u.name_user as vet,
+            u.tel_user as fone
+        FROM tb_anamnese as a 
+            INNER JOIN tb_pets p ON
+                p.id_pet = a.id_pet
+            INNER JOIN tb_vets v ON
+                v.id_vet = a.id_vet
+            INNER JOIN tb_users u ON
+                u.id_user = v.id_user 
+        WHERE a.id_pet = {$id_pet} ";
+
+        
+        if((!empty($date) && $date != null)) {
+            $sql .= " AND date_anamnese = '{$date}' ";
+        }
+
+        $stmt = $GLOBALS['db']->query($sql);
+
+        $data = $stmt->fetchAll();
+        return $data;
+
     }
 
     public static function formatDate($date) {

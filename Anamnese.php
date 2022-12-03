@@ -15,7 +15,7 @@ $user = $_functions ::getUser();
 $pets = $_functions::getAllPetsOwner($user);
 
 if($_REQUEST && @$_POST['Pesquisar']) {
-    $data = Functions::returnVaccineData(@$_POST['id_pet'], @$_POST['vaccine'], @$_POST['date']);
+    $data = Functions::returnAnamneseData(@$_POST['id_pet'], @$_POST['date']);
 }
 
 ?>
@@ -27,8 +27,15 @@ if($_REQUEST && @$_POST['Pesquisar']) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="src/css/bootstrap.css" rel="stylesheet" />
     <link href="src/css/bootstrap-theme.css" rel="stylesheet" />
-    <title>Vacinas</title>
+    <title>Anamnese</title>
 </head>
+<style>
+    textarea {
+        resize: none !important;
+        border: none !important;
+        outline: none !important;        
+    }
+</style>
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <img class="mx-auto d-block img-fluid" src="src/assets/logominha.png" width="140" height="70" alt="Logo do aplicativo: AnamnePet">
@@ -68,13 +75,8 @@ if($_REQUEST && @$_POST['Pesquisar']) {
                     <?php } ?>
                 </select>
             </div>
-            <!--Dropdown-->
             <div class="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">Nome da vacina</span>
-                <input type="text" class="form-control" name="vaccine">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">Data de aplicação</span>
+                <span class="input-group-text" id="inputGroup-sizing-default">Data da consulta</span>
                 <input type="date" class="form-control" name="date">
             </div>
         </div>
@@ -97,17 +99,19 @@ if($_REQUEST && @$_POST['Pesquisar']) {
     ?>
     <div class="result container my-4" style="width: 80%;">        
         <div class="card">
-            <div class="card-header"><?= $_data['vacina']?></div>
+            <div class="card-header"><?= $_data['title']?></div>
             <div class="card-body">
                 <p class="card-text">Pet:  <?= $_data['pet'] ?></p>
-                <p class="card-text">Descrição: <?= $_data['descricao'] ?></p>
-                <span class="card-text">Data de aplicação:</span>
-                <span class="text-muted d-inline"><?= Functions::formatDate($_data['data_aplicacao']) ?></span>
-                <p class="mt-3">Veterinário responsável: <?= $_data['vet'] ?></p>
-                <button data-bs-toggle="collapse" class="btn btn-primary d-block mt-3" data-bs-target="#attachmentId<?= $_data['id_pet'].$_data['id_vacina']?>">Ver anexo</button>
-                <div id="attachmentId<?= $_data['id_pet'].$_data['id_vacina']?>" class="collapse mt-2 border">
-                    <img class="zoom" src="<?= $_data['url'] ?>" alt="Anexo não localizado" width="100%" height="120">
-                </div>
+                <span class="card-text">Data da consulta:</span>
+                <span class="text-muted d-inline"><?= Functions::formatDate($_data['date_a']) ?></span>
+                <br>
+                <p class="mt-3">Veterinário responsável: <?= $_data['vet'] ?></p>                                
+                <button data-bs-toggle="collapse" class="btn btn-primary d-block mt-3" data-bs-target="#attachmentId<?= $_data['id_pet'].$_data['id_a']?>">Visualizar conteúdo</button>
+                <div id="attachmentId<?= $_data['id_pet'].$_data['id_a']?>" class="collapse mt-2">
+                <hr>
+                    <textarea readonly class="card-text w-100 h-100 text-decoration-none"><?= $_data['content'] ?></textarea>
+                <hr>
+                </div>                
             </div>
             <div class="card-footer">
                 <a class="mx-2 contact-btn" href="tel:<?= $_data['fone'] ?>">
@@ -122,17 +126,13 @@ if($_REQUEST && @$_POST['Pesquisar']) {
     <?php } } ?>
     <?php if(@$data == null && $_REQUEST && !@$_POST['Clear']) { ?>
         <div class="text-center container-fluid mt-5">
-            <h4 class="mt-5">Não existem vacinas aplicadas com os parâmetros selecionados!</h4>
+            <h4 class="mt-5">Não existem anamneses realizadas com os parâmetros selecionados!</h4>
         </div>
     <?php } ?>
     <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
     <script src="./src/js/bootstrap.bundle.min.js"></script>
     <script src="./src/js/scripts.js"></script>
-    <script>
-        mediumZoom('.zoom', {
-            margin: 50
-        })
-
+    <script>     
         function clearFields() {
             var form = document.getElementById("mainForm");
             form.reset();

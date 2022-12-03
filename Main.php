@@ -145,7 +145,7 @@ if ($user)
   </div>  
   <!--Prescrição nutricional-->
   <div class="card-menu">
-    <a href="">
+    <a href="./Prescription.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
@@ -185,14 +185,14 @@ if ($user)
   </div>
   <!--Exames-->
   <div class="card-menu">
-    <a href="./Exams.php">
+    <a href="./Anamnese.php">
       <div class="container-fluid d-flex justify-content-center card-menu-box">
         <div class="card bg-dark text-white mt-1 mb-4">
           <div class="card-body mt-3">
             <div class="row g-0">
               <div class="col-md-8 col-sm-8">
-                <h5 class="card-title">Exames</h5>
-                <p class="card-text">Histórico de exames do meu pet.</p>
+                <h5 class="card-title">Anamnese</h5>
+                <p class="card-text">Histórico de anamnese do meu pet.</p>
               </div>
               <div class="d-inline d-flex justify-content-end arrow-img" style="width: 30%;">
                 <img src="src/assets/chevron_right.png" class="img-fluid rounded-end">
