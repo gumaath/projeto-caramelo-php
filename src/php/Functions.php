@@ -324,5 +324,71 @@ class Functions
 
         return preg_replace("/\s+/", '', $wpp);
     }
-    
+
+    public static function UpdateUploadAttachment($_arquivo, $_pet_id, $type, $_id)
+    {
+      switch ($type) {
+      case 'vaccine':
+        $_type = 'vaccines';
+        $_tabela = 'tb_vaccines';
+        $__id = 'id_vaccine';
+      break;
+      }
+            $tipo_arquivo = explode('/', $_arquivo['photo']['type']);
+            $tipo_arquivo = $tipo_arquivo[1];
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/projeto-caramelo-php/'. "src/assets/attachments/";
+            if(!is_dir($target_dir . "{$_pet_id}/{$_type}/")) {
+              mkdir($target_dir . "{$_pet_id}/{$_type}/", 0777, true);
+            }
+            $id_unico = uniqid("att_");
+        $target_file = $target_dir . "{$_pet_id}/{$_type}/" . $id_unico . "." . $tipo_arquivo;
+        $_target_file = $id_unico . "." . $tipo_arquivo;
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+          $check = getimagesize($_arquivo["photo"]["tmp_name"]);
+          if($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+          } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+          }
+
+// Check file size
+if ($_arquivo["photo"]["size"] > 500000) {
+  return "Sorry, your file is too large.";
+  $uploadOk = 0;
+}
+
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+  return "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  $uploadOk = 0;
+}
+
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+  echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+  if (move_uploaded_file($_arquivo["photo"]["tmp_name"], $target_file)) {
+      $stmt = $GLOBALS['db']->query("UPDATE {$_tabela} SET attachment_url = '{$_target_file}' WHERE id_pet = {$_pet_id} AND {$__id} = {$_id}");
+  } else {
+    echo "Sorry, there was an error uploading your file.";
+  }
+}
+
+            }
+
+    public static function cadastrarVacina($params)
+    {
+        $stmt = $GLOBALS['db']->query("INSERT INTO tb_vaccines (name_vaccine, id_pet, id_vet, aplication_date, description)
+                 VALUES ('{$params['formNome']}',{$params['id_pet']}, {$params['id_vet']}, '{$params['DateApplication']}', '{$params['formDesc']}')");
+
+        $result = $GLOBALS['db']->lastInsertId();
+
+        return $result;
+    }
 }

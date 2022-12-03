@@ -85,7 +85,7 @@ if($_REQUEST) {
                 <span class="card-text">Data de nascimento:</span>
                 <span class="text-muted d-inline"><?=$pet['birth_pet']?></span>
                 <br>
-                <a class="btn btn-primary mt-3" href="#">Abrir perfil do pet</a>
+                <a class="btn btn-primary mt-3" href="./ViewPetVet.php?id=<?=$pet['id_pet']?>">Abrir perfil do pet</a>
             </div>
         </div>
         <?php } ?>
